@@ -1,26 +1,10 @@
-# General CSS notes, advice and guidelines
+# CSS Guidlines
 
 ---
 
-## Translations
-
-* [Russian/русский](https://github.com/matmuchrapna/CSS-Guidelines/blob/master/README%20Russian.md)
+*Purpose: Maintainability, Scalability, Ease of ramp up,*
 
 ---
-
-In working on large, long running projects with dozens of developers, it is
-important that we all work in a unified way in order to, among other things:
-
-* Keep stylesheets maintainable
-* Keep code transparent and readable
-* Keep stylesheets scalable
-
-There are a variety of techniques we must employ in order to satisfy these
-goals.
-
-The first part of this document will deal with syntax, formatting and CSS
-anatomy, the second part will deal with approach, mindframe and attitude toward
-writing and architecting CSS. Exciting, huh?
 
 ## Contents
 
@@ -66,113 +50,104 @@ means consistent commenting, consistent syntax and consistent naming.
 
 ### General
 
-Limit your stylesheets to a maximum 80 character width where possible.
-Exceptions may be gradient syntax and URLs in comments. That’s fine, there’s
-nothing we can do about that.
+CSS should be written in [*Expanded Form*](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#id15):
 
-I prefer four (4) space indents over tabs and write multi-line CSS.
+    .widget {
+      rule: value;
+    }
+
+SCSS is our prefered CSS syntax.
 
 ### One file vs. many files
 
-Some people prefer to work with single, large files. This is fine, and by
-sticking to the following guidelines you’ll encounter no problems. Since moving
-to Sass I have started sharding my stylesheets out into lots of tiny includes.
-This too is fine… Whichever method you choose, the following rules and
-guidelines apply. The only notable difference is with regards our table of
-contents and our section titles. Read on for further explanation…
+Our files should be split up into files for all components.
+
+    toc.scss
+    app/
+      base.scss
+      moduleA.scss
+      moduleB.scss
+    site/
+      site.scss
+      header.scss
+      internal-page.scss
+      fonts/
+        *font files here*
+        fonts.scss
+
 
 ### Table of contents
 
-At the top of stylesheets, I maintain a table of contents which will detail the
-sections contained in the document, for example:
+This file should reference each included SCSS file with direct links to open the file in vim and a brief description:
 
-    /*------------------------------------*\
-        $CONTENTS
-    \*------------------------------------*/
-    /**
-     * CONTENTS............You’re reading it!
-     * RESET...............Set our reset defaults
-     * FONT-FACE...........Import brand font files
-     */
+    // SIGN-UP
+    // app/sign-up.scss
+    // Define the styles for the embeddable sign up widget.
+    app/sign-up.scss
 
-This will tell the next developer(s) exactly what they can expect to find in
-this file. Each item in the table of contents maps directly to a section title.
+    // MODAL
+    // app/modal.scss
+    // Define all global styles for modal windows
+    app/modal.scss
 
-If you are working in one big stylesheet, the corresponding section will also be
-in that file. If you are working across multiple files then each item in the
-table of contents will map to an include which pulls that section in.
+    // etc...
 
-### Section titles
+All links must be relative to the current directory. Within Vim, simply place your cursor over the path and type 'gf'.
 
-The table of contents would be of no use unless it had corresponding section
-titles. Denote a section thus:
 
-    /*------------------------------------*\
-        $RESET
-    \*------------------------------------*/
+### File titles and headers
 
-The `$` prefixing the name of the section allows us to run a find ([Cmd|Ctrl]+F)
+Without being able to search for files, the table of contents wouldn't be nearly as useful. At the top of each SCSS file reference the name as you defined it in the table of contents.
+
+We will also include several other pieces of helpful information: a) primary contributors (name/email), and editor settings.
+
+
+    // ex: set tabstop=8 expandtab:
+    //
+    //
+    // $RESET
+    //
+    //
+    // @author Your Name <you@youremail.com>
+    // @doc
+    //  Any documentation needed goes here...
+    // @end
+
+
+
+The `$` prefixing the name of the section allows us to run a find
 for `$[SECTION-NAME]` and **limit our search scope to section titles only**.
 
-If you are working in one large stylesheet, you leave five (5) carriage returns
-between each section, thus:
-
-    /*------------------------------------*\
-        $RESET
-    \*------------------------------------*/
-    [Our
-    reset
-    styles]
-    
-    
-    
-    
-    
-    /*------------------------------------*\
-        $FONT-FACE
-    \*------------------------------------*/
-
-This large chunk of whitespace is quickly noticeable when scrolling quickly
-through larger files.
-
-If you are working across multiple, included stylesheets, start each of those
-files with a section title and there is no need for any carriage returns.
 
 ## Source order
 
-Try and write stylesheets in specificity order. This ensures that you take full
-advantage of inheritance and CSS’ first <i>C</i>; the cascade.
+All stylesheets should be in order of specificity. This ensures that you take full
+advantage of inheritance and CSS' first <i>C</i>; the cascade.
 
-A well ordered stylesheet will be ordered something like this:
+A well ordered set of stylesheets will look something like this:
 
-1. **Reset** – ground zero.
-2. **Elements** – unclassed `h1`, unclassed `ul` etc.
-3. **Objects and abstractions** — generic, underlying design patterns.
-4. **Components** – full components constructed from objects and their
-   extensions.
-5. **Style trumps** – error states etc.
+1. **Elements** – unclassed `h1`, unclassed `ul` etc.
+2. **Objects and abstractions** — generic, underlying design patterns.
+3. **Components** – full components constructed from objects and their extensions.
+4. **Style trumps** – error states etc.
 
 This means that—as you go down the document—each section builds upon and
 inherits sensibly from the previous one(s). There should be less undoing of
 styles, less specificity problems and all-round better architected stylesheets.
 
-For further reading I cannot recommend Jonathan Snook’s
-[SMACSS](http://smacss.com) highly enough.
 
 ## Anatomy of rulesets
 
     [selector]{
-        [property]:[value];
-        [<- Declaration ->]
-    }    
+      [property]:[value];
+    }
 
-I have a number of standards when structuring rulesets.
 
 * Use hyphen delimited class names (except for BEM notation,
   [see below](#naming-conventions))
-* 4 space indented
+* 2 space indented
 * Multi-line
-* Declarations in relevance (NOT alphabetical) order
+* Declarations in alphabetical order
 * Indent vendor prefixed declarations so that their values are aligned
 * Indent our rulesets to mirror the DOM
 * Always include the final semi-colon in a ruleset
@@ -180,56 +155,55 @@ I have a number of standards when structuring rulesets.
 A brief example:
 
     .widget{
-        padding:10px;
-        border:1px solid #BADA55;
-        background-color:#C0FFEE;
-        -webkit-border-radius:4px;
-           -moz-border-radius:4px;
-                border-radius:4px;
+      background-color: #c0ffee;
+      border: 1px solid #bada55;
+      -webkit-border-radius: 4px;
+         -moz-border-radius: 4px;
+          -ms-border-radius: 4px;
+           -0-border-radius: 4px;
+              border-radius: 4px;
+      padding: 10px;
     }
-        .widget-heading{
-            font-size:1.5rem;
-            line-height:1;
-            font-weight:bold;
-            color:#BADA55;
-            margin-right:-10px;
-            margin-left: -10px;
-            padding:0.25em;
-        }
+      .widget-heading{
+        color: #bada55;
+        font-size: 16px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1;
+        margin-left: -10px;
+        margin-right: -10px;
+        padding: 0.25em;
+      }
 
 Here we can see that `.widget-heading` must be a child of `.widget` as we have
 indented the `.widget-heading` ruleset one level deeper than `.widget`. This is
 useful information to developers that can now be gleaned just by a glance at the
 indentation of our rulesets.
 
-We can also see that `.widget-heading`’s declarations are ordered by their
-relevance; `.widget-heading` must be a textual element so we begin with our
-text rules, followed by everything else.
-
 One exception to our multi-line rule might be in cases of the following:
 
-    .t10    { width:10% }
-    .t20    { width:20% }
-    .t25    { width:25% }       /* 1/4 */
-    .t30    { width:30% }
-    .t33    { width:33.333% }   /* 1/3 */
-    .t40    { width:40% }
-    .t50    { width:50% }       /* 1/2 */
-    .t60    { width:60% }
-    .t66    { width:66.666% }   /* 2/3 */
-    .t70    { width:70% }
-    .t75    { width:75% }       /* 3/4*/
-    .t80    { width:80% }
-    .t90    { width:90% }
+    .t10 { width:10% }
+    .t20 { width:20% }
+    .t25 { width:25% }
+    .t30 { width:30% }
+    .t33 { width:33.333% }
+    .t40 { width:40% }
+    .t50 { width:50% }
+    .t60 { width:60% }
+    .t66 { width:66.666% }
+    .t70 { width:70% }
+    .t75 { width:75% }
+    .t80 { width:80% }
+    .t90 { width:90% }
 
 In this example (from [inuit.css’s table grid system](
-https://github.com/csswizardry/inuit.css/blob/master/inuit.css/partials/base/_tables.scss#L88))
+https://github.com/csswizardry/inuit.css/blob/master/inuit.css/partials/base/_tables.scss#L88)
 it makes more sense to single-line our CSS.
 
 ## Naming conventions
 
-For the most part I simply use hyphen delimited classes (e.g. `.foo-bar`, not
-`.foo_bar` or `.fooBar`), however in certain circumstances I use BEM (Block,
+Always use hyphen delimited classes (e.g. `.foo-bar`, not
+`.foo_bar` or `.fooBar`), however in certain circumstances we can use BEM (Block,
 Element, Modifier) notation.
 
 <abbr title="Block, Element, Modifier">BEM</abbr> is a methodology for naming
@@ -247,7 +221,7 @@ The naming convention follows this pattern:
   as a whole.
 * `.block--modifier` represents a different state or version of `.block`.
 
-An **analogy** of how BEM classes work might be:
+An analogy of how BEM classes work might be:
 
     .person{}
     .person--woman{}
@@ -278,8 +252,8 @@ Regardless of whether you need to use BEM or not, always ensure classes are
 sensibly named; keep them as short as possible but as long as necessary. Ensure
 any objects or abstractions are very vaguely named (e.g. `.ui-list`, `.media`)
 to allow for greater reuse. Extensions of objects should be much more explicitly
-named (e.g. `.user-avatar-link`). Don’t worry about the amount or length of
-classes; gzip will compress well written code _incredibly_ well.
+named (e.g. `.user-avatar-link`). **Don't worry about the amount or length of
+classes;** gzip will compress well written code _incredibly_ well.
 
 ### Classes in HTML
 
@@ -288,7 +262,7 @@ In a bid to make things easier to read, separate classes is your HTML with two
 
     <div class="foo--bar  bar__baz">
 
-This increased whitespace should hopefully allow for easier spotting and reading
+This increased whitespace should allow for easier spotting and reading
 of multiple classes.
 
 ### JS hooks
@@ -310,48 +284,36 @@ functionality.
 
 ### Internationalisation
 
-Despite being a British developer—and spending all my life writing <i>colour</i>
-instead of <i>color</i>—I feel that, for the sake of consistency, it is better
-to always use US-English in CSS. CSS, as with most (if not all) other languages,
-is written in US-English, so to mix syntax like `color:red;` with classes like
-`.colour-picker{}` lacks consistency. I have previously suggested and advocated
-writing bilingual classes, for example:
-
-    .color-picker,
-    .colour-picker{
-    }
-
-However, having recently worked on a very large Sass project where there were
-dozens of colour variables (e.g. `$brand-color`, `$highlight-color` etc.),
-maintaining two versions of each variable soon became tiresome. It also means
-twice as much work with things like find and replace.
-
-In the interests of consistency, always name classes and variables in the locale
-of the language you are working with.
+Whether you grew up using <i>colour</i> instead of <i>color</i>—for 
+the sake of consistency, it is better to always use US-English in CSS. CSS, as 
+with most (if not all) other languages, is written in US-English, so to mix syntax 
+like `color:red;` with classes like `.colour-picker{}` lacks consistency.
 
 ## Comments
 
-I use a docBlock-esque commenting style which I limit to 80 characters in length:
+When more than one or two lines are needed, use a docBlock-esque commenting style limited to 80 characters in length:
 
-    /**
-     * This is a docBlock style comment
-     * 
-     * This is a longer description of the comment, describing the code in more
-     * detail. We limit these lines to a maximum of 80 characters in length.
-     * 
-     * We can have markup in the comments, and are encouraged to do so:
-     * 
-       <div class=foo>
-           <p>Lorem</p>
-       </div>
-     * 
-     * We do not prefix lines of code with an asterisk as to do so would inhibit
-     * copy and paste.
-     */
+    //
+    //
+    //  This is a docBlock style comment
+    //
+    //  This is a longer description of the comment, describing the code in more
+    //  detail. We limit these lines to a maximum of 80 characters in length.
+    //
+    //  We can have markup in the comments, and are encouraged to do so:
+    //
+    //  <div class=foo>
+    //      <p>Lorem</p>
+    //  </div>
+    //
+    //  We do not prefix lines of code with an asterisk as to do so would inhibit
+    //  copy and paste.
+    //
+    //
 
-You should document and comment our code as much as you possibly can, what may
+Document and comment your code as much as you possibly can, what may
 seem or feel transparent and self explanatory to you may not be to another dev.
-Write a chunk of code then write about it.
+**Write a chunk of code then write about it.**
 
 ### Comments on steroids
 
@@ -364,10 +326,10 @@ comments, namely:
 
 #### Quasi-qualified selectors
 
-You should never qualify your selectors; that is to say, we should never write
-`ul.nav{}` if you can just have `.nav`. Qualifying selectors decreases selector
-performance, inhibits the potential for reusing a class on a different type of
-element and it increases the selector’s specificity. These are all things that
+Never qualify your selectors; that is to say, never write
+`ul.nav{}` if you can just use `.nav`. Qualifying selectors a) decreases selector
+performance, b) inhibits the potential for reusing a class on a different type of
+element and c) it increases the selector's specificity. These are all things that
 should be avoided at all costs.
 
 However, sometimes it is useful to communicate to the next developer(s) where
@@ -380,6 +342,11 @@ By quasi-qualifying this selector (i.e. commenting out the leading type
 selector) we can communicate where we wish to have this class applied, thus:
 
     /*html*/.product-page{}
+
+In SCSS you can simply put a line above.
+
+    // <html>
+    .product-page{}
 
 We can now see exactly where to apply this class but with none of the
 specificity or non-reusability drawbacks.
