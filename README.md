@@ -65,8 +65,8 @@ Our files should be split up into files for all components.
     toc.scss
     app/
       base.scss
+      colors.scss
       moduleA.scss
-      moduleB.scss
     site/
       site.scss
       header.scss
@@ -139,13 +139,14 @@ styles, less specificity problems and all-round better architected stylesheets.
 ## Anatomy of rulesets
 
     [selector]{
-      [property]:[value];
+      [property]: [value];
     }
 
 
 * Use hyphen delimited class names (except for BEM notation,
   [see below](#naming-conventions))
 * 2 space indented
+* 1 space after the colon `':'` following the property
 * Multi-line
 * Declarations in alphabetical order
 * Indent vendor prefixed declarations so that their values are aligned
@@ -158,10 +159,10 @@ A brief example:
       background-color: #c0ffee;
       border: 1px solid #bada55;
       -webkit-border-radius: 4px;
-         -moz-border-radius: 4px;
-          -ms-border-radius: 4px;
-           -0-border-radius: 4px;
-              border-radius: 4px;
+      -moz-border-radius:    4px;
+      -ms-border-radius:     4px;
+      -o-border-radius:      4px;
+      border-radius:         4px;
       padding: 10px;
     }
       .widget-heading{
@@ -353,31 +354,16 @@ specificity or non-reusability drawbacks.
 
 Other examples might be:
 
-    /*ol*/.breadcrumb{}
-    /*p*/.intro{}
-    /*ul*/.image-thumbs{}
+    // <ol>
+    .breadcrumb{}
+    // <p>
+    .intro{}
+    // <ul>
+    .image-thumbs{}
 
 Here we can see where we intend each of these classes to be applied without
-actually ever impacting the specificity of the selectors.
+impacting the specificity of the selectors.
 
-#### Tagging code
-
-If you write a new component then leave some tags pertaining to its function in
-a comment above it, for example:
-
-    /**
-     * ^navigation ^lists
-     */
-    .nav{}
-    
-    /**
-     * ^grids ^lists ^tables
-     */
-    .matrix{}
-
-These tags allow other developers to find snippets of code by searching for
-function; if a developer needs to work with lists they can run a find for
-`^lists` and find the `.nav` and `.matrix` objects (and possibly more).
 
 #### Object/extension pointers
 
@@ -388,19 +374,26 @@ places. In order to establish a concrete link between the object and its
 extension with use <i>object/extension pointers</i>. These are simply comments
 which work thus:
 
-In your base stylesheet:
+In a stylesheet called 'sidebar':
 
-    /**
-     * Extend `.foo` in theme.css
-     */
-     .foo{}
+    //
+    // Base error style in sidebar.scss
+    //
+    .error {
+      background-color: #fdd;
+      border: 1px solid #f00;
+    }
+
 
 In your theme stylesheet:
 
-    /**
-     * Extends `.foo` in base.css
-     */
-     .bar{}
+    //
+    // Extends `.error` in sidebar.scss
+    //
+    .seriousError {
+      @extend .error;
+      border-width: 3px;
+    }
 
 Here we have established a concrete relationship between two very separate
 pieces of code.
@@ -424,11 +417,11 @@ apply only the relevant classes and CSS _afterwards_.
 
 ## OOCSS
 
-I work in an OOCSS manner; I split components into structure (objects) and
+Work in an OOCSS manner; split components into structure (objects) and
 skin (extensions). As an **analogy** (note, not example) take the following:
 
     .room{}
-    
+
     .room--kitchen{}
     .room--bedroom{}
     .room--bathroom{}
@@ -454,8 +447,10 @@ treatments.
 
 ## Layout
 
-All components you build should be left totally free of widths; they should
+All components you build should be left **totally free** of widths; they should
 always remain fluid and their widths should be governed by a parent/grid system.
+
+?????
 
 Heights should **never** be be applied to elements. Heights should only be 
 applied to things which had dimensions _before_ they entered the site (i.e.
@@ -463,33 +458,47 @@ images and sprites). Never ever set heights on `p`s, `ul`s, `div`s, anything.
 You can often achieve the desired effect with `line-height` which is far more
 flexible.
 
-Grid systems should be thought of as shelves. They contain content but are not
-content in themselves. You put up your shelves then fill them with your stuff.
-By setting up our grids separately to our components you can move components
-around a lot more easily than if they had dimensions applied to them; this makes
-our front-ends a lot more adaptable and quick to work with.
+Rather than use a grid system that requires extra markup or an abundance of
+classes, we create our grid using custom mixins applied to various containers.
 
-You should never apply any styles to a grid item, they are for layout purposes
-only. Apply styling to content _inside_ a grid item. Never, under _any_
-circumstances, apply box-model properties to a grid item.
+In `grid.scss` define columns and gutters as so:
+
+    //
+    // Base font size = 16px // Defined in base.scss
+    // Site = 1000px, Column = 150px, Gutter = 20px   (6 column grid)
+    //
+
+    $column: 15%;
+    $gutter: 2%;
+
+    $onecol: $column;
+    $twocol: ($column * 2) + $gutter;
+    $threecol: ($column * 3) + ($gutter * 2);
+    $fourcol: ($column * 4) + ($gutter * 3);
+    $fivecol: ($column * 5) + ($gutter * 4);
+    $sixcol: ($column * 6) + ($gutter * 5);
+
+Leave any notes above the grid in a comment block. For instance, a new dev may
+not know how the 1000px wide design file translates to a 15% column. When sizing 
+in ems or rems it is also helpful to include the base font size here.
 
 ## Sizing UIs
 
-I use a combination of methods for sizing UIs. Percentages, pixels, ems, rems
+We can use a combination of methods for sizing UIs. Percentages, pixels, ems, rems
 and nothing at all.
 
-Grid systems should, ideally, be set in percentages. Because I use grid systems
-to govern widths of columns and pages, I can leave components totally free of
+Grid systems should, ideally, be set in percentages. Because we use grid systems
+to govern widths of columns and pages, you can leave components totally free of
 any dimensions (as discussed above).
 
-Font sizes I set in rems with a pixel fallback. This gives the accessibility
+Font sizes should be set in rems with a pixel fallback. This gives the accessibility
 benefits of ems with the confidence of pixels. Here is a handy Sass mixin to
 work out a rem and pixel fallback for you (assuming you set your base font
 size in a variable somewhere):
 
     @mixin font-size($font-size){
-        font-size:$font-size +px;
-        font-size:$font-size / $base-font-size +rem;
+      font-size: $font-size +px;
+      font-size: $font-size / $base-font-size +rem;
     }
 
 I only use pixels for items whose dimensions were defined before the came into
@@ -498,10 +507,19 @@ inherently set absolutely in pixels.
 
 ### Font sizing
 
-I define a series of classes akin to a grid system for sizing fonts. These
-classes can be used to style type in a double stranded heading hierarchy. For a
-full explanation of how this works please refer to my article
-[Pragmatic, practical font-sizing in CSS](http://csswizardry.com/2012/02/pragmatic-practical-font-sizing-in-css)
+Rather than simply using .hN notation we use abstract classes made up of the first 
+six letters of the Greek alphabet:
+
+    h1,.alpha {}
+    h2,.beta {}
+    h3,.gamma {}
+    h4,.delta {}
+    h5,.epsilon {}
+    h6,.zeta {}
+
+This allows us to reuse the styles without _always_ being locked into specific 
+elements.
+
 
 ## Shorthand
 
@@ -521,7 +539,7 @@ Be explicit in which properties you set and take care to not inadvertently unset
 others with shorthand. E.g. if you only want to remove the bottom margin on an
 element then there is no sense in setting all margins to zero with `margin:0;`.
 
-Shorthand is good, but easily misused.
+Shorthand can be good, but is most often abused.
 
 ## IDs
 
@@ -530,17 +548,17 @@ A quick note on IDs in CSS before we dive into selectors in general.
 **NEVER use IDs in CSS.**
 
 They can be used in your markup for JS and fragment identifiers but use only
-classes for styling. You don’t want to see a single ID in any stylesheets!
+classes for styling. There shouldn't be a single ID in any stylesheets!
 
-Classes come with the benefit of being reusable (even if we don’t want to, we
+Classes come with the benefit of being reusable (even if we don't want to, we
 can) and they have a nice, low specificity. Specificity is one of the quickest
 ways to run into difficulties in projects and keeping it low at all times is
-imperative. An ID is **255** times more specific than a class, so never ever use
+_imperative_. An ID is **255** times more specific than a class, so never ever use
 them in CSS _ever_.
 
 ## Selectors
 
-Keep selectors short, efficient and portable.
+Keep selectors a) short, b) efficient and c) portable.
 
 Heavily location-based selectors are bad for a number of reasons. For example,
 take `.sidebar h3 span{}`. This selector is too location-based and thus we
@@ -551,12 +569,12 @@ Selectors which are too long also introduce performance issues; the more checks
 in a selector (e.g. `.sidebar h3 span` has three checks, `.content ul p a` has
 four), the more work the browser has to do.
 
-Make sure styles aren’t dependent on location where possible, and make sure
-selectors are nice and short.
+Make sure styles are not dependent on location, and make sure selectors are nice 
+and short.
 
-Selectors as a whole should be kept short (e.g. one class deep) but the class
+Selectors as a whole should be kept short (e.g. one - two class(es) deep) but the class
 names themselves should be as long as they need to be. A class of `.user-avatar`
-is far nicer than `.usr-avt`.
+is much easier to quickly read and comprehend than `.usr-avt`.
 
 **Remember:** classes are neither semantic or insemantic; they are sensible or
 insensible! Stop stressing about ‘semantic’ class names and pick something
@@ -569,9 +587,16 @@ As discussed above, qualified selectors are bad news.
 An over-qualified selector is one like `div.promo`. You could probably get the
 same effect from just using `.promo`. Of course sometimes you will _want_ to
 qualify a class with an element (e.g. if you have a generic `.error` class that
-needs to look different when applied to different elements (e.g.
-`.error{ color:red; }` `div.error{ padding:14px; }`)), but generally avoid it
-where possible.
+needs to look different when applied to different elements e.g.:
+
+    .error {
+      color: red;
+    }
+    div.error {
+      padding: 14px;
+    }
+
+But generally avoid it where possible.
 
 Another example of an over-qualified selector might be `ul.nav li a{}`. As
 above, we can instantly drop the `ul` and because we know `.nav` is a list, we
@@ -613,19 +638,13 @@ Be explicit; target the element you want to affect, not its parent. Never assume
 that markup won’t change. **Write selectors that target what you want, not what
 happens to be there already.**
 
-For a full write up please see my article
+For a full write up please see the article
 [Shoot to kill; CSS selector intent](http://csswizardry.com/2012/07/shoot-to-kill-css-selector-intent/)
 
 ## `!important`
 
-It is okay to use `!important` on helper classes only. To add `!important`
-preemptively is fine, e.g. `.error{ color:red!important }`, as you know you will
-**always** want this rule to take precedence.
-
-Using `!important` reactively, e.g. to get yourself out of nasty specificity
-situations, is not advised. Rework your CSS and try to combat these issues by
-refactoring your selectors. Keeping your selectors short and avoiding IDs will
-help out here massively.
+Unless needed to override third party styles outside of our control, you should
+never use `!important`.
 
 ## Magic numbers and absolutes
 
@@ -642,9 +661,10 @@ Instead you should use `.dropdown-nav li:hover ul{ top:100%; }` which means no
 matter how tall the `.dropdown-nav` gets, the dropdown will always sit 100% from
 the top.
 
-Every time you hard code a number think twice; if you can avoid it by using
-keywords or ‘aliases’ (i.e. `top:100%` to mean ‘all the way from the top’)
-or&mdash;even better&mdash;no measurements at all then you probably should.
+_Every_ time you hard code a number think twice (maybe even a third time); if you 
+  can avoid it by using keywords or ‘aliases’ (i.e. `top:100%` to mean ‘all the 
+way from the top’) or&mdash;even better&mdash;no measurements at all then you 
+probably should.
 
 Every hard-coded measurement you set is a commitment you might not necessarily
 want to keep.
@@ -660,6 +680,9 @@ IE stylesheet if you refactor and rework your CSS. This means you never want to
 see `<!--[if IE 7]> element{ margin-left:-9px; } < ![endif]-->` or other such
 CSS that is clearly using arbitrary styling to just ‘make stuff work’.
 
+Use Modernizr.js to test for and target different support sets rather than 
+device or software sniffing.
+
 ## Debugging
 
 If you run into a CSS problem **take code away before you start adding more** in
@@ -672,33 +695,3 @@ determine which part of the code the problem lies in.
 It can be tempting to put an `overflow:hidden;` on something to hide the effects
 of a layout quirk, but overflow was probably never the problem; **fix the
 problem, not its symptoms.**
-
-## Preprocessors
-
-Sass is my preprocessor of choice. **Use it wisely.** Use Sass to make your CSS
-more powerful but avoid nesting like the plague! Nest only when it would
-actually be necessary in vanilla CSS, e.g.
-
-    .header{}
-    .header .site-nav{}
-    .header .site-nav li{}
-    .header .site-nav li a{}
-
-Would be wholly unnecessary in normal CSS, so the following would be **bad**
-Sass:
-
-    .header{
-        .site-nav{
-            li{
-                a{}
-            }
-        }
-    }
-
-If you were to Sass this up you’d write it as:
-
-    .header{}
-    .site-nav{
-        li{}
-        a{}
-    }
