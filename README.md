@@ -26,8 +26,8 @@
 * [Building new components](#building-new-components)
 * [OOCSS](#oocss)
 * [Layout](#layout)
-* [Sizing UIs](#sizing-uis)
-  * [Font sizing](#font-sizing)
+* [Font sizing](#font-sizing)
+  * [H tags](#h-tags)
 * [Shorthand](#shorthand)
 * [IDs](#ids)
 * [Selectors](#selectors)
@@ -383,9 +383,6 @@ which work thus:
 
 In a stylesheet called 'sidebar':
 
-    //
-    // Base error style in sidebar.scss
-    //
     .error {
       background-color: #fdd;
       border: 1px solid #f00;
@@ -397,7 +394,7 @@ In your theme stylesheet:
     //
     // Extends `.error` in sidebar.scss
     //
-    .seriousError {
+    .serious-error {
       @extend .error;
       border-width: 3px;
     }
@@ -457,14 +454,6 @@ treatments.
 All components you build should be left **totally free** of widths; they should
 always remain fluid and their widths should be governed by a parent/grid system.
 
-?????
-
-Heights should **never** be be applied to elements. Heights should only be 
-applied to things which had dimensions _before_ they entered the site (i.e.
-images and sprites). Never ever set heights on `p`s, `ul`s, `div`s, anything.
-You can often achieve the desired effect with `line-height` which is far more
-flexible.
-
 Rather than use a grid system that requires extra markup or an abundance of
 classes, we create our grid using custom mixins applied to various containers.
 
@@ -489,7 +478,7 @@ Leave any notes above the grid in a comment block. For instance, a new dev may
 not know how the 1000px wide design file translates to a 15% column. When sizing 
 in ems or rems it is also helpful to include the base font size here.
 
-## Sizing UIs
+## Font sizing
 
 We can use a combination of methods for sizing UIs. Percentages, pixels, ems, rems
 and nothing at all.
@@ -508,11 +497,11 @@ size in a variable somewhere):
       font-size: $font-size / $base-font-size +rem;
     }
 
-I only use pixels for items whose dimensions were defined before the came into
+Only use pixels for items whose dimensions were defined _before_ the came into
 the site. This includes things like images and sprites whose dimensions are
 inherently set absolutely in pixels.
 
-### Font sizing
+### H tags
 
 Rather than simply using .hN notation we use abstract classes made up of the first 
 six letters of the Greek alphabet:
