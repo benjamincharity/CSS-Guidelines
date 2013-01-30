@@ -21,7 +21,6 @@
 * [Comments](#comments)
   * [Comments on steroids](#comments-on-steroids)
     * [Quasi-qualified selectors](#quasi-qualified-selectors)
-    * [Tagging code](#tagging-code)
     * [Object/extension pointers](#objectextension-pointers)
 * [Writing CSS](#writing-css)
 * [Building new components](#building-new-components)
@@ -75,6 +74,15 @@ Our files should be split up into files for all components.
         *font files here*
         fonts.scss
 
+### Files that should be found in every project
+
+Some global SCSS files should appear in every project.
+
+* reset.scss  // level the browser playing field and start with a blank canvas
+* fonts.scss  // references your font files and set up font names
+* dev.scss    // contains styles to show which media query is currenty in effect
+* grid.scss   // define your grid sizing
+* colors.scss // define every color here
 
 ### Table of contents
 
@@ -322,7 +330,6 @@ There are a number of more advanced techniques you can employ with regards
 comments, namely:
 
 * Quasi-qualified selectors
-* Tagging code
 * Object/extension pointers
 
 #### Quasi-qualified selectors
@@ -695,3 +702,22 @@ determine which part of the code the problem lies in.
 It can be tempting to put an `overflow:hidden;` on something to hide the effects
 of a layout quirk, but overflow was probably never the problem; **fix the
 problem, not its symptoms.**
+
+## Overrides & Fallbacks
+
+Use [Modernizr.js](http://modernizr.com/) to test for features when needed. Use the 
+classes provided by Modernizr to set fallbacks or overrides for specific feature 
+sets. 
+
+Place these styles at the end of the related stylesheet. For example, if you are
+editing a styleheet called `footer.scss` and you need to write a specific style
+for touch enabled devices, place the override at the bottom of `footer.scss`.
+
+## CSS Resets
+
+We use a custom reset file that was originally based off of [Eric Meyer's original
+css reset](http://meyerweb.com/eric/tools/css/reset/) and then tweaked over the 
+years.
+
+Both SCSS and SASS versions are maintained on Github: [Resets](https://github.com/benjamincharity/Resets)
+
