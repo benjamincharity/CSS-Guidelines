@@ -12,7 +12,6 @@
   * [General](#general)
   * [One file vs. many files](#one-file-vs-many-files)
   * [Table of contents](#table-of-contents)
-  * [Section titles](#section-titles)
 * [Source order](#source-order)
 * [Anatomy of rulesets](#anatomy-of-rulesets)
 * [Naming conventions](#naming-conventions)
@@ -38,7 +37,6 @@
 * [Magic numbers and absolutes](#magic-numbers-and-absolutes)
 * [Conditional stylesheets](#conditional-stylesheets)
 * [Debugging](#debugging)
-* [Preprocessors](#preprocessors)
 
 ---
 
