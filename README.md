@@ -35,7 +35,7 @@
   * [Selector performance](#selector-performance)
 * [CSS selector intent](#css-selector-intent)
 * [`!important`](#important)
-* [Shame.css](#shame-css)
+* [Shame.css](#shame-scss)
 * [Magic numbers and absolutes](#magic-numbers-and-absolutes)
 * [Conditional stylesheets](#conditional-stylesheets)
 * [Debugging](#debugging)
