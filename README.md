@@ -35,6 +35,7 @@
   * [Selector performance](#selector-performance)
 * [CSS selector intent](#css-selector-intent)
 * [`!important`](#important)
+* [Shame.css](#shame-css)
 * [Magic numbers and absolutes](#magic-numbers-and-absolutes)
 * [Conditional stylesheets](#conditional-stylesheets)
 * [Debugging](#debugging)
@@ -646,6 +647,48 @@ For a full write up please see the article
 
 Unless needed to override third party styles outside of our control, you should
 never use `!important`.
+
+Anytime a 'hack' such as this is employed, it should be included in your
+`_shame.scss` (outlined below).
+
+Always leave one space between the style value and the `!important` declaration
+to improve readability.
+
+    .foo {
+      background-color: #bada55 !important;
+    }
+
+## Shame.css
+
+The idea of shame.css is that you have a totally new stylesheet reserved just
+for your hacky code. The code you have to write to get the release out on time,
+    but the code that makes you ashamed.
+
+By putting your bodges, hacks and quick-fixes in their own file you do a few things:
+
+1. You make them stick out like a sore thumb.
+2. You keep your ‘main’ codebase clean.
+3. You make developers aware that their hacks are made very visible.
+4. You make them easier to isolate and fix.
+5. $ git blame shame.css.
+
+### The Rules
+
+Obviously you need some kind of rules and criteria:
+
+- If it's a hack, it goes in shame.css.
+- Document all hacks fully:
+  - What part of the codebase does it relate to?
+  - Why was this needed?
+  - How does this fix it?
+  - How might you fix it properly, given more time?
+- Do not blame the developer; if they explained why they had to do it then 
+  their reasons are probably (hopefully) valid.
+- Try and clean shame.css up when you have some down time.
+  - Even better, get a tech-debt story in which you can dedicate actual 
+    sprint time to it.
+
+Original article by [CSS-Wizardry]() [shame.css](http://csswizardry.com/2013/04/shame-css/)
 
 ## Magic numbers and absolutes
 
