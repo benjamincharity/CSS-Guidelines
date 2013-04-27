@@ -15,6 +15,7 @@
 * [Source order](#source-order)
 * [Anatomy of rulesets](#anatomy-of-rulesets)
 * [Naming conventions](#naming-conventions)
+  * [Classes for CSS & JS Shared Rules](#classes-for-css-&-js-shared-rules)
   * [JS hooks](#js-hooks)
   * [Internationalisation](#internationalisation)
 * [Comments](#comments)
@@ -98,7 +99,7 @@ This file should reference each included SCSS file with direct links to open the
 
     // etc...
 
-All links must be relative to the current directory. Within Vim, simply place your cursor over the path and type 'gf'.
+All links must be relative to the current directory. This allows Vim users to simply place their cursor over the path and type 'gf' to open it.
 
 
 ### File titles and headers
@@ -271,6 +272,12 @@ In a bid to make things easier to read, separate classes is your HTML with two
 
 This increased whitespace should allow for easier spotting and reading
 of multiple classes.
+
+### Classes for CSS & JS Shared Rules
+
+Use the is- prefix for state rules that are shared between CSS and JS.
+
+    <div class="foo--bar  is-active">
 
 ### JS hooks
 
