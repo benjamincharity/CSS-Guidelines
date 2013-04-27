@@ -50,7 +50,8 @@ means consistent commenting, consistent syntax and consistent naming.
 
 ### General
 
-CSS should be written in [*Expanded Form*](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#id15):
+CSS should be written in
+[*Expanded Form*](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#id15):
 
     .widget {
       rule: value;
@@ -87,7 +88,8 @@ Some global SCSS files should appear in every project.
 
 ### Table of contents
 
-This file should reference each included SCSS file with direct links to open the file in vim and a brief description:
+This file should reference each included SCSS file with direct links to open the
+file in vim and a brief description:
 
     // SIGN-UP
     // app/sign-up.scss
@@ -101,14 +103,18 @@ This file should reference each included SCSS file with direct links to open the
 
     // etc...
 
-All links must be relative to the current directory. This allows Vim users to simply place their cursor over the path and type 'gf' to open it.
+All links must be relative to the current directory. This allows Vim users to
+simply place their cursor over the path and type 'gf' to open it.
 
 
 ### File titles and headers
 
-Without being able to search for files, the table of contents wouldn't be nearly as useful. At the top of each SCSS file reference the name as you defined it in the table of contents.
+Without being able to search for files, the table of contents wouldn't be nearly
+as useful. At the top of each SCSS file reference the name as you defined it in
+the table of contents.
 
-We will also include several other pieces of helpful information: a) primary contributors (name/email), and editor settings.
+We will also include several other pieces of helpful information: a) primary
+contributors (name/email), and editor settings.
 
 
     // ex: set tabstop=8 expandtab:
@@ -206,7 +212,7 @@ One exception to our multi-line rule might be in cases of the following:
     .t80 { width:80% }
     .t90 { width:90% }
 
-In this example (from [inuit.css’s table grid system](
+In this example (from [inuit.css's table grid system](
 https://github.com/csswizardry/inuit.css/blob/master/inuit.css/partials/base/_tables.scss#L88)
 it makes more sense to single-line our CSS.
 
@@ -302,12 +308,13 @@ functionality.
 
 Whether you grew up using <i>colour</i> instead of <i>color</i>—for 
 the sake of consistency, it is better to always use US-English in CSS. CSS, as 
-with most (if not all) other languages, is written in US-English, so to mix syntax 
-like `color:red;` with classes like `.colour-picker{}` lacks consistency.
+with most (if not all) other languages, is written in US-English, so to mix
+syntax like `color:red;` with classes like `.colour-picker{}` lacks consistency.
 
 ## Comments
 
-When more than one or two lines are needed, use a docBlock-esque commenting style limited to 80 characters in length:
+When more than one or two lines are needed, use a docBlock-esque commenting
+style limited to 80 characters in length:
 
     //
     //
@@ -665,7 +672,8 @@ The idea of shame.css is that you have a totally new stylesheet reserved just
 for your hacky code. The code you have to write to get the release out on time,
     but the code that makes you ashamed.
 
-By putting your bodges, hacks and quick-fixes in their own file you do a few things:
+By putting your bodges, hacks and quick-fixes in their own file you do a few
+things:
 
 1. You make them stick out like a sore thumb.
 2. You keep your ‘main’ codebase clean.
@@ -683,13 +691,14 @@ Obviously you need some kind of rules and criteria:
   - Why was this needed?
   - How does this fix it?
   - How might you fix it properly, given more time?
-- Do not blame the developer; if they explained why they had to do it then 
+- Do not blame the developer; if they explained why they had to do it then
   their reasons are probably (hopefully) valid.
 - Try and clean shame.css up when you have some down time.
-  - Even better, get a tech-debt story in which you can dedicate actual 
+  - Even better, get a tech-debt story in which you can dedicate actual
     sprint time to it.
 
-Original article by [CSS-Wizardry](http://twitter.com/csswizardry) [shame.css](http://csswizardry.com/2013/04/shame-css/)
+Original article by [CSS-Wizardry](http://twitter.com/csswizardry)
+[shame.css](http://csswizardry.com/2013/04/shame-css/)
 
 ## Magic numbers and absolutes
 
@@ -706,10 +715,10 @@ Instead you should use `.dropdown-nav li:hover ul{ top:100%; }` which means no
 matter how tall the `.dropdown-nav` gets, the dropdown will always sit 100% from
 the top.
 
-_Every_ time you hard code a number think twice (maybe even a third time); if you 
-  can avoid it by using keywords or ‘aliases’ (i.e. `top:100%` to mean ‘all the 
-way from the top’) or&mdash;even better&mdash;no measurements at all then you 
-probably should.
+_Every_ time you hard code a number think twice (maybe even a third time); if
+you can avoid it by using keywords or ‘aliases’ (i.e. `top:100%` to mean ‘all
+the way from the top’) or&mdash;even better&mdash;no measurements at all then
+you probably should.
 
 Every hard-coded measurement you set is a commitment you might not necessarily
 want to keep.
