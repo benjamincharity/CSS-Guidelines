@@ -66,7 +66,10 @@ this article by Dale Sande: [Clean out your Sass junk-drawer](http://gist.io/443
 
     all.scss
     _config.scss
+    _reset.scss
     _functions.scss
+    _shame.scss
+    _dev.scss
     modules/
       main-header/
         _functions.scss
@@ -78,6 +81,10 @@ this article by Dale Sande: [Clean out your Sass junk-drawer](http://gist.io/443
         _mixins.scss
         _module_mainFooter.scss
         _module_footerNav.scss
+      buttons/
+        _functions.scss
+        _mixins.scss
+        _buttons.scss
     layouts/
       _landing.scss
       _dashboard.scss
