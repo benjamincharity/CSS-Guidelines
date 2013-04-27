@@ -51,7 +51,7 @@ means consistent commenting, consistent syntax and consistent naming.
 ### General
 
 CSS should be written in
-[*Expanded Form*](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#id15):
+[Expanded Form](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#id15):
 
     .widget {
       rule: value;
@@ -61,30 +61,42 @@ SCSS is our prefered CSS syntax.
 
 ### One file vs. many files
 
-Our files should be split up into files for all components.
+Our files should be organized by modules.  Much of this thinking was inspired by
+this article by Dale Sande: [Clean out your Sass junk-drawer](http://gist.io/4436524)
 
-    toc.scss
-    app/
-      base.scss
-      colors.scss
-      moduleA.scss
-    site/
-      site.scss
-      header.scss
-      internal-page.scss
-      fonts/
-        *font files here*
-        fonts.scss
+    all.scss
+    _config.scss
+    _functions.scss
+    modules/
+      main-header/
+        _functions.scss
+        _mixins.scss
+        _module_mainHeader.scss
+        _module_mainNav.scss
+      main-footer/
+        _functions.scss
+        _mixins.scss
+        _module_mainFooter.scss
+        _module_footerNav.scss
+    layouts/
+      _landing.scss
+      _dashboard.scss
+      _blog.scss
+    fonts/
+      *font files here*
+      _fonts.scss
 
 ### Files that should be found in every project
 
 Some global SCSS files should appear in every project.
 
-* reset.scss  // level the browser playing field and start with a blank canvas
-* fonts.scss  // references your font files and set up font names
-* dev.scss    // contains styles to show which media query is currenty in effect
-* grid.scss   // define your grid sizing
-* colors.scss // define every color here
+* reset.scss        // level the browser playing field and start with a blank canvas
+* fonts.scss        // references your font files and set up font names
+* dev.scss          // contains any styling useful during development
+* config.scss       // set all site-wide variables and third-party overrides
+* functions.scss    // create reusable functions here to separate function
+                       from style
+* variables         // 
 
 ### Table of contents
 
@@ -160,13 +172,14 @@ styles, less specificity problems and all-round better architected stylesheets.
 
 * Use hyphen delimited class names (except for BEM notation,
   [see below](#naming-conventions))
-* 2 space indented
+* Soft tabs with a 2 space indent
 * 1 space after the colon `':'` following the property
 * Multi-line
 * Declarations in alphabetical order
 * Indent vendor prefixed declarations so that their values are aligned
 * Indent our rulesets to mirror the DOM
 * Always include the final semi-colon in a ruleset
+* `0` values should not include the unit (px/em/etc)
 
 A brief example:
 
