@@ -103,7 +103,7 @@ Some global SCSS files should appear in every project.
 * config.scss       // set all site-wide variables and third-party overrides
 * functions.scss    // create reusable functions here to separate function
                        from style
-* variables         // 
+* [shame.scss](#shame-css)
 
 ### Table of contents
 
