@@ -688,7 +688,7 @@ Obviously you need some kind of rules and criteria:
   - Even better, get a tech-debt story in which you can dedicate actual 
     sprint time to it.
 
-Original article by [CSS-Wizardry]() [shame.css](http://csswizardry.com/2013/04/shame-css/)
+Original article by [CSS-Wizardry](http://twitter.com/csswizardry) [shame.css](http://csswizardry.com/2013/04/shame-css/)
 
 ## Magic numbers and absolutes
 
