@@ -103,7 +103,7 @@ Some global SCSS files should appear in every project.
 * config.scss       // set all site-wide variables and third-party overrides
 * functions.scss    // create reusable functions here to separate function
                        from style
-* [shame.scss](#shame-css)
+* [shame.scss](#shame-scss)
 
 ### Table of contents
 
@@ -686,7 +686,7 @@ to improve readability.
       background-color: #bada55 !important;
     }
 
-## Shame.css
+## Shame scss
 
 The idea of shame.css is that you have a totally new stylesheet reserved just
 for your hacky code. The code you have to write to get the release out on time,
