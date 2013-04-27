@@ -15,7 +15,7 @@
 * [Source order](#source-order)
 * [Anatomy of rulesets](#anatomy-of-rulesets)
 * [Naming conventions](#naming-conventions)
-  * [Classes for CSS & JS Shared Rules](#classes-for-css-&-js-shared-rules)
+  * [Classes for CSS and JS shared rules](#classes-for-css-and-js-shared-rules)
   * [JS hooks](#js-hooks)
   * [Internationalisation](#internationalisation)
 * [Comments](#comments)
@@ -39,6 +39,7 @@
 * [Magic numbers and absolutes](#magic-numbers-and-absolutes)
 * [Conditional stylesheets](#conditional-stylesheets)
 * [Debugging](#debugging)
+* [Credits](#credits)
 
 ---
 
@@ -274,7 +275,7 @@ In a bid to make things easier to read, separate classes is your HTML with two
 This increased whitespace should allow for easier spotting and reading
 of multiple classes.
 
-### Classes for CSS & JS Shared Rules
+### Classes for CSS and JS shared rules
 
 Use the is- prefix for state rules that are shared between CSS and JS.
 
@@ -742,13 +743,13 @@ problem, not its symptoms.**
 
 ## Overrides & Fallbacks
 
-Use [Modernizr.js](http://modernizr.com/) to test for features when needed. Use the 
-classes provided by Modernizr to set fallbacks or overrides for specific feature 
-sets. 
+Use [Modernizr.js](http://modernizr.com/) to test for features when needed. Use
+the classes provided by Modernizr to set fallbacks or overrides for specific
+feature sets.
 
 Place these styles at the end of the related stylesheet. For example, if you are
 editing a styleheet called `footer.scss` and you need to write a specific style
-for touch enabled devices, place the override at the bottom of `footer.scss`.
+for touch enabled devices, place the override at the bottom of `footer.scss`
 
 ## CSS Resets
 
@@ -756,5 +757,15 @@ We use a custom reset file that was originally based off of [Eric Meyer's origin
 css reset](http://meyerweb.com/eric/tools/css/reset/) and then tweaked over the 
 years.
 
-Both SCSS and SASS versions are maintained on Github: [Resets](https://github.com/benjamincharity/Resets)
+Both SCSS and SASS versions are maintained on Github:
+[Resets](https://github.com/benjamincharity/Resets)
 
+## Credits
+
+Credit goes out to these guys as the inspiration and source of knowledge for
+much of this document.
+
+- Harry Roberts - [http://twitter.com/csswizardry](https://twitter.com/csswizardry)
+- Chris Coyier - [http://twitter.com/real_css_tricks](http://twitter.com/csswizardry)
+- Kyle Kneath - [http://twitter.com/kneath](http://twitter.com/kneath)
+- Dale Sande - [http://twitter.com/anotheruiguy](http://twitter.com/anotheruiguy)
