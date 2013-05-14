@@ -317,7 +317,7 @@ class namespaced with `.js-`, e.g. `.js-toggle`, `.js-drag-and-drop`. This means
 that we can attach both JS and CSS to classes in our markup but there will never
 be any troublesome overlap.
 
-    <th class="is-sortable  js-is-sortable">
+    <th class="js-search-results  is-sortable">
     </th>
 
 The above markup holds two classes; one to which you can attach some styling for
