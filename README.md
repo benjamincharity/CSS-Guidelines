@@ -2,9 +2,13 @@
 
 ---
 
-*Purpose: Maintainability, Scalability, Ease of ramp up,*
+**Purpose: Maintainability, scalability, ease of code hand-off.**
+
+*Expect this document to change over time as my understanding deepens and new
+methods present themselves.*
 
 ---
+
 
 ## Contents
 
@@ -17,7 +21,7 @@
 * [Naming conventions](#naming-conventions)
   * [Classes for CSS and JS shared rules](#classes-for-css-and-js-shared-rules)
   * [JS hooks](#js-hooks)
-  * [Internationalisation](#internationalisation)
+  * [Internationalization](#internationalization)
 * [Comments](#comments)
   * [Comments on steroids](#comments-on-steroids)
     * [Quasi-qualified selectors](#quasi-qualified-selectors)
@@ -35,7 +39,7 @@
   * [Selector performance](#selector-performance)
 * [CSS selector intent](#css-selector-intent)
 * [`!important`](#important)
-* [Shame.css](#shame-scss)
+* [Shame.scss](#shamescss)
 * [Magic numbers and absolutes](#magic-numbers-and-absolutes)
 * [Conditional stylesheets](#conditional-stylesheets)
 * [Debugging](#debugging)
@@ -43,10 +47,12 @@
 
 ---
 
+
 ## CSS Document Anatomy
 
 No matter the document, we must always try and keep a common formatting. This
 means consistent commenting, consistent syntax and consistent naming.
+
 
 ### General
 
@@ -59,51 +65,50 @@ CSS should be written in
 
 SCSS is our prefered CSS syntax.
 
+
 ### One file vs. many files
 
-Our files should be organized by modules.  Much of this thinking was inspired by
-this article by Dale Sande: [Clean out your Sass junk-drawer](http://gist.io/4436524)
+Our files should be organized by modules.  Much of this was inspired by
+[Clean out your Sass junk-drawer](http://gist.io/4436524) from Dale Sande.
 
-    all.scss
-    _config.scss
-    _reset.scss
-    _functions.scss
-    _shame.scss
-    _dev.scss
-    modules/
-      main-header/
-        _functions.scss
-        _mixins.scss
-        _module_mainHeader.scss
-        _module_mainNav.scss
-      main-footer/
-        _functions.scss
-        _mixins.scss
-        _module_mainFooter.scss
-        _module_footerNav.scss
-      buttons/
-        _functions.scss
-        _mixins.scss
-        _buttons.scss
+
+
     layouts/
-      _landing.scss
-      _dashboard.scss
-      _blog.scss
-    fonts/
-      *font files here*
-      _fonts.scss
+      _main.scss
+      ...
+    home/
+      _extends.scss
+      _home.scss
+      _welcome.scss
+    extends/
+      _buttons.scss
+      _forms.scss
+      _links.scss
+      ...
+    global/
+      _extends.scss
+      _navbar.scss
+      _navpanel.scss
+    _dev.scss
+    _global_config.scss
+    _global_functions.scss
+    _global_reset.scss
+    _shame.scss
+    main.scss
+
 
 ### Files that should be found in every project
 
 Some global SCSS files should appear in every project.
 
-* reset.scss        // level the browser playing field and start with a blank canvas
-* fonts.scss        // references your font files and set up font names
-* dev.scss          // contains any styling useful during development
-* config.scss       // set all site-wide variables and third-party overrides
-* functions.scss    // create reusable functions here to separate function
-                       from style
-* [shame.scss](#shame-scss)
+    _dev.scss              // contains any styling useful during development
+    _global_reset.scss     // level the browser playing field and start with a blank canvas
+    _global_functions.scss // level the browser playing field and start with a blank canvas
+    _global_config.scss    // set all site-wide variables and third-party overrides
+    _global_functions.scss // create reusable functions here to separate function
+                              from style
+    _shame.scss
+
 
 ### Table of contents
 
@@ -180,11 +185,10 @@ styles, less specificity problems and all-round better architected stylesheets.
 * Use hyphen delimited class names (except for BEM notation,
   [see below](#naming-conventions))
 * Soft tabs with a 2 space indent
-* 1 space after the colon `':'` following the property
+* 1 space after the colon `:` following the property
 * Multi-line
 * Declarations in alphabetical order
-* Indent vendor prefixed declarations so that their values are aligned
-* Indent our rulesets to mirror the DOM
+* Align vendor-prefixed rules so their values are aligned.
 * Always include the final semi-colon in a ruleset
 * `0` values should not include the unit (px/em/etc)
 
@@ -193,26 +197,24 @@ A brief example:
     .widget{
       background-color: #c0ffee;
       border: 1px solid #bada55;
-      -webkit-border-radius: 4px;
-      -moz-border-radius:    4px;
-      -ms-border-radius:     4px;
-      -o-border-radius:      4px;
-      border-radius:         4px;
+      -webkit-border-radius : 4px;
+      -moz-border-radius    : 4px;
+      -ms-border-radius     : 4px;
+      -o-border-radius      : 4px;
+      border-radius         : 4px;
       padding: 10px;
     }
-      .widget-heading{
-        color: #bada55;
-        font-size: 16px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1;
-        margin-left: -10px;
-        margin-right: -10px;
-        padding: 0.25em;
-      }
+
+    .widget__heading{
+      color: #bada55;
+      font-size: 16px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1em;
+    }
 
 Here we can see that `.widget-heading` must be a child of `.widget` as we have
-indented the `.widget-heading` ruleset one level deeper than `.widget`. This is
+indented the `.widget__heading` ruleset one level deeper than `.widget`. This is
 useful information to developers that can now be gleaned just by a glance at the
 indentation of our rulesets.
 
@@ -232,9 +234,9 @@ One exception to our multi-line rule might be in cases of the following:
     .t80 { width:80% }
     .t90 { width:90% }
 
-In this example (from [inuit.css's table grid system](
-https://github.com/csswizardry/inuit.css/blob/master/inuit.css/partials/base/_tables.scss#L88)
+In this example from [inuit.css's table grid system](https://github.com/csswizardry/inuit.css/blob/master/base/_tables.scss#L96-L120)
 it makes more sense to single-line our CSS.
+
 
 ## Naming conventions
 
@@ -242,15 +244,15 @@ Always use hyphen delimited classes (e.g. `.foo-bar`, not
 `.foo_bar` or `.fooBar`), however in certain circumstances we can use BEM (Block,
 Element, Modifier) notation.
 
-<abbr title="Block, Element, Modifier">BEM</abbr> is a methodology for naming
-and classifying CSS selectors in a way to make them a lot more strict,
-transparent and informative.
+[<abbr title="Block, Element, Modifier">BEM</abbr>](https://bem.info/method/)
+is a methodology for naming and classifying CSS selectors in a way to make them
+much more strict, transparent and informative.
 
 The naming convention follows this pattern:
 
-    .block{}
-    .block__element{}
-    .block--modifier{}
+    .block {...}
+    .block__element {...}
+    .block--modifier {...}
 
 * `.block` represents the higher level of an abstraction or component.
 * `.block__element` represents a descendent of `.block` that helps form `.block`
@@ -259,11 +261,13 @@ The naming convention follows this pattern:
 
 An analogy of how BEM classes work might be:
 
-    .person{}
-    .person--woman{}
-        .person__hand{}
-        .person__hand--left{}
-        .person__hand--right{}
+    .person {...}
+
+    .person--woman {...}
+
+    .person__hand {...}
+    .person__hand--left {...}
+    .person__hand--right {...}
 
 Here we can see that the basic object we’re describing is a person, and that a
 different type of person might be a woman. We can also see that people have
@@ -274,15 +278,15 @@ We can now namespace our selectors based on their base objects and we can also
 communicate what job the selector does; is it a sub-component (`__`) or a
 variation (`--`)?
 
-So, `.page-wrapper` is a standalone selector; it doesn’t form part of an
-abstraction or a component and as such it named correctly. `.widget-heading`,
+So, `.page-wrapper` is a standalone selector; it doesn't form part of an
+abstraction or a component and as such it named correctly. `.widget__heading`,
 however, _is_ related to a component; it is a child of the `.widget` construct
 so we would rename this class `.widget__heading`.
 
 BEM looks a little uglier, and is a lot more verbose, but it grants us a lot of
 power in that we can glean the functions and relationships of elements from
 their classes alone. Also, BEM syntax will typically compress (gzip) very well
-as compression favours/works well with repetition.
+as compression favors/works well with repetition.
 
 Regardless of whether you need to use BEM or not, always ensure classes are
 sensibly named; keep them as short as possible but as long as necessary. Ensure
@@ -290,6 +294,10 @@ any objects or abstractions are very vaguely named (e.g. `.ui-list`, `.media`)
 to allow for greater reuse. Extensions of objects should be much more explicitly
 named (e.g. `.user-avatar-link`). **Don't worry about the amount or length of
 classes;** gzip will compress well written code _incredibly_ well.
+
+Let me say that one more time....
+
+**Do NOT worry about the amount or length of classes.**
 
 ### Classes in HTML
 
@@ -301,11 +309,27 @@ In a bid to make things easier to read, separate classes is your HTML with two
 This increased whitespace should allow for easier spotting and reading
 of multiple classes.
 
+
 ### Classes for CSS and JS shared rules
 
-Use the is- prefix for state rules that are shared between CSS and JS.
+Use the `is_` prefix for CSS state rules that are triggered by JavaScript.
 
-    <div class="foo--bar  is-active">
+HTML:
+
+    <button class="button--submit  is_enabled">Submit</button>
+
+CSS:
+
+    .button--submit {
+      opacity: .7;
+      pointer-events: none;
+
+      &.is_enabled {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
 
 ### JS hooks
 
@@ -317,19 +341,22 @@ class namespaced with `.js-`, e.g. `.js-toggle`, `.js-drag-and-drop`. This means
 that we can attach both JS and CSS to classes in our markup but there will never
 be any troublesome overlap.
 
-    <th class="js-search-results  is-sortable">
-    </th>
+    <button class="is_active  js-active-button">
+      Submit
+    </button>
 
 The above markup holds two classes; one to which you can attach some styling for
 sortable table columns and another which allows you to add the sorting
 functionality.
 
-### Internationalisation
+
+### Internationalization
 
 Whether you grew up using <i>colour</i> instead of <i>color</i>—for 
 the sake of consistency, it is better to always use US-English in CSS. CSS, as 
 with most (if not all) other languages, is written in US-English, so to mix
 syntax like `color:red;` with classes like `.colour-picker{}` lacks consistency.
+
 
 ## Comments
 
@@ -358,6 +385,7 @@ Document and comment your code as much as you possibly can, what may
 seem or feel transparent and self explanatory to you may not be to another dev.
 **Write a chunk of code then write about it.**
 
+
 ### Comments on steroids
 
 There are a number of more advanced techniques you can employ with regards
@@ -365,6 +393,7 @@ comments, namely:
 
 * Quasi-qualified selectors
 * Object/extension pointers
+
 
 #### Quasi-qualified selectors
 
@@ -380,12 +409,8 @@ class sounds as though it would be used on a high-level container, perhaps the
 `html` or `body` element, but with `.product-page` alone it is impossible to
 tell.
 
-By quasi-qualifying this selector (i.e. commenting out the leading type
-selector) we can communicate where we wish to have this class applied, thus:
-
-    /*html*/.product-page{}
-
-In SCSS you can simply put a line above.
+By quasi-qualifying this selector, adding the element that the class should be
+applied to, we can make it easier to find within the DOM.
 
     // <html>
     .product-page{}
@@ -396,11 +421,11 @@ specificity or non-reusability drawbacks.
 Other examples might be:
 
     // <ol>
-    .breadcrumb{}
+    .breadcrumb {...}
     // <p>
-    .intro{}
+    .intro {...}
     // <ul>
-    .image-thumbs{}
+    .image-thumbs {...}
 
 Here we can see where we intend each of these classes to be applied without
 impacting the specificity of the selectors.
@@ -410,26 +435,22 @@ impacting the specificity of the selectors.
 
 When working in an object oriented manner you will often have two chunks of CSS
 (one being the skeleton (the object) and the other being the skin (the
-extension)) that are very closely related, but that live in very different
-places. In order to establish a concrete link between the object and its
-extension with use <i>object/extension pointers</i>. These are simply comments
-which work thus:
+extension)) that are very closely related, but that live in different places.
 
-In a stylesheet called 'sidebar':
+The object should be defined as a [placeholder selector](http://sass-lang.com/documentation/file.SASS_REFERENCE.html#placeholder_selectors_).
+This allows the style to be defined, but it will not be rendered on it's own;
+but rather as part of the style declaration that includes it.
 
-    .error {
-      background-color: #fdd;
-      border: 1px solid #f00;
+    %error {
+      background-color: red;
+      border: 1px solid DarkRed;
+      color: white;
     }
 
+Then to use:
 
-In your theme stylesheet:
-
-    //
-    // Extends `.error` in sidebar.scss
-    //
-    .serious-error {
-      @extend .error;
+    .error--serious {
+      @extend %error;
       border-width: 3px;
     }
 
@@ -438,13 +459,15 @@ pieces of code.
 
 ---
 
+
 ## Writing CSS
 
 The previous section dealt with how we structure and form our CSS; they were
 very quantifiable rules. The next section is a little more theoretical and deals
 with our attitude and approach.
 
-## Building new components
+
+### Building new components
 
 When building a new component write markup **before** CSS. This means you can
 visually see which CSS properties are naturally inherited and thus avoid
@@ -453,16 +476,17 @@ reapplying redundant styles.
 By writing markup first you can focus on data, content and semantics and then
 apply only the relevant classes and CSS _afterwards_.
 
-## OOCSS
+
+### OOCSS
 
 Work in an OOCSS manner; split components into structure (objects) and
 skin (extensions). As an **analogy** (note, not example) take the following:
 
-    .room{}
+    .room {...}
 
-    .room--kitchen{}
-    .room--bedroom{}
-    .room--bathroom{}
+    .room--kitchen {...}
+    .room--bedroom {...}
+    .room--bathroom {...}
 
 We have several types of room in a house, but they all share similar traits;
 they all have floors, ceilings, walls and doors. We can share this information
@@ -483,7 +507,8 @@ structure of the component using very generic classes so that we can reuse that
 construct and then use more specific classes to skin it up and add design
 treatments.
 
-## Layout
+
+### Layout
 
 All components you build should be left **totally free** of widths; they should
 always remain fluid and their widths should be governed by a parent/grid system.
@@ -512,7 +537,8 @@ Leave any notes above the grid in a comment block. For instance, a new dev may
 not know how the 1000px wide design file translates to a 15% column. When sizing 
 in ems or rems it is also helpful to include the base font size here.
 
-## Font sizing
+
+### Font sizing
 
 We can use a combination of methods for sizing UIs. Percentages, pixels, ems, rems
 and nothing at all.
@@ -535,7 +561,13 @@ Only use pixels for items whose dimensions were defined _before_ the came into
 the site. This includes things like images and sprites whose dimensions are
 inherently set absolutely in pixels.
 
+**NOTE:** As browsers have become increasingly better at determining correct px
+sizes when zooming, I have noticed myself needing REMs less and less.
+
 ### H tags
+
+If you find yourself needing to reuse header styles across your site, attach
+your styles to something _other_ than the element.
 
 Rather than simply using .hN notation we use abstract classes made up of the first 
 six letters of the Greek alphabet:
@@ -571,6 +603,7 @@ element then there is no sense in setting all margins to zero with `margin:0;`.
 
 Shorthand can be good, but is most often abused.
 
+
 ## IDs
 
 A quick note on IDs in CSS before we dive into selectors in general.
@@ -585,6 +618,7 @@ can) and they have a nice, low specificity. Specificity is one of the quickest
 ways to run into difficulties in projects and keeping it low at all times is
 _imperative_. An ID is **255** times more specific than a class, so never ever use
 them in CSS _ever_.
+
 
 ## Selectors
 
@@ -610,6 +644,7 @@ is much easier to quickly read and comprehend than `.usr-avt`.
 insensible! Stop stressing about ‘semantic’ class names and pick something
 sensible and futureproof.
 
+
 ### Over-qualified selectors
 
 As discussed above, qualified selectors are bad news.
@@ -633,6 +668,7 @@ above, we can instantly drop the `ul` and because we know `.nav` is a list, we
 therefore know that any `a` _must_ be in an `li`, so we can get `ul.nav li a{}`
 down to just `.nav a{}`.
 
+
 ### Selector performance
 
 Whilst it is true that browsers will only ever keep getting faster at rendering
@@ -640,36 +676,38 @@ CSS, efficiency is something you could do to keep an eye on. Short, unnested
 selectors, not using the universal (`*{}`) selector as the key selector, and
 avoiding more complex CSS3 selectors should help circumvent these problems.
 
+
 ## CSS selector intent
 
 Instead of using selectors to drill down the DOM to an element, it is often best
-to put a class on the element you explicitly want to style. Let’s take a
-specific example with a selector like `.header ul{}`…
+to put a class on the element you explicitly want to style. Let's take a
+specific example with a selector like `.header ul{...}`…
 
-Let’s imagine that `ul` is indeed the main navigation for our website. It lives
+Let's imagine that `ul` is indeed the main navigation for our website. It lives
 in the header as you might expect and is currently the only `ul` in there;
-`.header ul{}` will work, but it’s not ideal or advisable. It’s not very future
+`.header ul {...}` will work, but it's not ideal or advisable. It's not very future
 proof and certainly not explicit enough. As soon as we add another `ul` to that
-header it will adopt the styling of our main nav and the the chances are it
-won’t want to. This means we either have to refactor a lot of code _or_ undo a
-lot of styling on subsequent `ul`s in that `.header` to remove the effects of
+header it will adopt the styling of our main nav and the chances are it
+won't want to. This means we either have to refactor a lot of code _or_ undo a
+lot of styling on subsequent `ul`'s in that `.header` to remove the effects of
 the far reaching selector.
 
-Your selector’s intent must match that of your reason for styling something;
+Your selector's intent must match that of your reason for styling something;
 ask yourself **‘am I selecting this because it’s a `ul` inside of `.header` or
 because it is my site’s main nav?’**. The answer to this will determine your
 selector.
 
 Make sure your key selector is never an element/type selector or
 object/abstraction class. You never really want to see selectors like
-`.sidebar ul{}` or `.footer .media{}` in our theme stylesheets.
+`.sidebar ul {...}` or `.footer .media {...}` in our theme stylesheets.
 
-Be explicit; target the element you want to affect, not its parent. Never assume
-that markup won’t change. **Write selectors that target what you want, not what
-happens to be there already.**
+Be explicit; target the element you want to affect, not its parent. **Never**
+assume that markup won't change. **Write selectors that target what you want,
+not what happens to be there already.**
 
 For a full write up please see the article
 [Shoot to kill; CSS selector intent](http://csswizardry.com/2012/07/shoot-to-kill-css-selector-intent/)
+
 
 ## `!important`
 
@@ -686,39 +724,41 @@ to improve readability.
       background-color: #bada55 !important;
     }
 
-## Shame scss
+
+## Shame SCSS
 
 The idea of shame.css is that you have a totally new stylesheet reserved just
 for your hacky code. The code you have to write to get the release out on time,
-    but the code that makes you ashamed.
+but the code that makes you ashamed.
 
-By putting your bodges, hacks and quick-fixes in their own file you do a few
-things:
+By putting your hacks and quick-fixes in their own file you do a few things:
 
 1. You make them stick out like a sore thumb.
 2. You keep your ‘main’ codebase clean.
 3. You make developers aware that their hacks are made very visible.
 4. You make them easier to isolate and fix.
-5. $ git blame shame.css.
+5. $ git blame _shame.scss.
+
 
 ### The Rules
 
 Obviously you need some kind of rules and criteria:
 
-- If it's a hack, it goes in shame.css.
+- If it's a hack, it goes in _shame.scss.
 - Document all hacks fully:
-  - What part of the codebase does it relate to?
-  - Why was this needed?
-  - How does this fix it?
-  - How might you fix it properly, given more time?
+    - What part of the codebase does it relate to?
+    - Why was this needed?
+    - How does this fix it?
+    - How might you fix it properly, given more time?
 - Do not blame the developer; if they explained why they had to do it then
   their reasons are probably (hopefully) valid.
-- Try and clean shame.css up when you have some down time.
-  - Even better, get a tech-debt story in which you can dedicate actual
-    sprint time to it.
+- Try and clean _shame.scss up when you have some down time.
+    - Even better, get a tech-debt story in which you can dedicate actual
+      sprint time to it.
 
 Original article by [CSS-Wizardry](http://twitter.com/csswizardry):
 [shame.css](http://csswizardry.com/2013/04/shame-css/)
+
 
 ## Magic numbers and absolutes
 
@@ -726,12 +766,12 @@ A magic number is a number which is used because ‘it just works’. These are 
 because they rarely work for any real reason and are not usually very
 futureproof or flexible/forgiving. They tend to fix symptoms and not problems.
 
-For example, using `.dropdown-nav li:hover ul{ top:37px; }` to move a dropdown
-to the bottom of the nav on hover is bad, as 37px is a magic number. 37px only
+For example, using `.dropdown-nav li:hover ul { top:37px; }` to move a dropdown
+to the bottom of the nav on hover is bad, as `37px` is a magic number. `37px` only
 works here because in this particular scenario the `.dropdown-nav` happens to be
-37px tall.
+`37px` tall.
 
-Instead you should use `.dropdown-nav li:hover ul{ top:100%; }` which means no
+Instead you should use `.dropdown-nav li:hover ul { top:100%; }` which means no
 matter how tall the `.dropdown-nav` gets, the dropdown will always sit 100% from
 the top.
 
@@ -740,8 +780,9 @@ you can avoid it by using keywords or ‘aliases’ (i.e. `top:100%` to mean ‘
 the way from the top’) or&mdash;even better&mdash;no measurements at all then
 you probably should.
 
-Every hard-coded measurement you set is a commitment you might not necessarily
-want to keep.
+Every hard-coded measurement you set is a commitment you (or other developers on
+the project) might not necessarily want to keep.
+
 
 ## Conditional stylesheets
 
@@ -757,11 +798,14 @@ CSS that is clearly using arbitrary styling to just ‘make stuff work’.
 Use Modernizr.js to test for and target different support sets rather than 
 device or software sniffing.
 
+
 ## Debugging
 
 If you run into a CSS problem **take code away before you start adding more** in
-a bid to fix it. The problem exists in CSS that is already written, more CSS
-isn’t the right answer!
+a bid to fix it.
+
+Remember: _The problem exists in CSS that is already written, more CSS isn't
+the right answer!_
 
 Delete chunks of markup and CSS until your problem goes away, then you can
 determine which part of the code the problem lies in.
@@ -770,6 +814,7 @@ It can be tempting to put an `overflow:hidden;` on something to hide the effects
 of a layout quirk, but overflow was probably never the problem; **fix the
 problem, not its symptoms.**
 
+
 ## Overrides & Fallbacks
 
 Use [Modernizr.js](http://modernizr.com/) to test for features when needed. Use
@@ -777,8 +822,13 @@ the classes provided by Modernizr to set fallbacks or overrides for specific
 feature sets.
 
 Place these styles at the end of the related stylesheet. For example, if you are
-editing a styleheet called `footer.scss` and you need to write a specific style
-for touch enabled devices, place the override at the bottom of `footer.scss`
+editing a styleheet called `_home.scss` and you need to write a specific style
+for touch enabled devices, place the override at the bottom of `_home.scss`
+
+Or, better yet, include a separate file in your `home/` scss directory called
+`_overrides.scss` and include your specific overrides there. Then in your main
+SCSS file, include this overrides file after the primary `_home.scss`.
+
 
 ## CSS Resets
 
@@ -786,8 +836,8 @@ We use a custom reset file that was originally based off of [Eric Meyer's origin
 css reset](http://meyerweb.com/eric/tools/css/reset/) and then tweaked over the 
 years.
 
-Both SCSS and SASS versions are maintained on Github:
-[Resets](https://github.com/benjamincharity/Resets)
+This file is maintained on Github: [Resets](https://github.com/benjamincharity/Resets)
+
 
 ## Credits
 
