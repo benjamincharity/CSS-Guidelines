@@ -413,7 +413,7 @@ By quasi-qualifying this selector, adding the element that the class should be
 applied to, we can make it easier to find within the DOM.
 
     // <html>
-    .product-page{}
+    .product-page {...}
 
 We can now see exactly where to apply this class but with none of the
 specificity or non-reusability drawbacks.
@@ -526,16 +526,16 @@ In `grid.scss` define columns and gutters as so:
     $column: 15%;
     $gutter: 2%;
 
-    $onecol: $column;
-    $twocol: ($column * 2) + $gutter;
-    $threecol: ($column * 3) + ($gutter * 2);
-    $fourcol: ($column * 4) + ($gutter * 3);
-    $fivecol: ($column * 5) + ($gutter * 4);
-    $sixcol: ($column * 6) + ($gutter * 5);
+    $onecol   : $column;
+    $twocol   : ($column * 2) + $gutter;
+    $threecol : ($column * 3) + ($gutter * 2);
+    $fourcol  : ($column * 4) + ($gutter * 3);
+    $fivecol  : ($column * 5) + ($gutter * 4);
+    $sixcol   : ($column * 6) + ($gutter * 5);
 
-Leave any notes above the grid in a comment block. For instance, a new dev may
-not know how the 1000px wide design file translates to a 15% column. When sizing 
-in ems or rems it is also helpful to include the base font size here.
+Leave any notes above the grid in a comment block. For instance, a new developer
+may not know how the 1000px wide design file translates to a 15% column. When
+sizing in ems or rems it is also helpful to include the base font size here.
 
 
 ### Font sizing
@@ -572,12 +572,12 @@ your styles to something _other_ than the element.
 Rather than simply using .hN notation we use abstract classes made up of the first 
 six letters of the Greek alphabet:
 
-    h1,.alpha {}
-    h2,.beta {}
-    h3,.gamma {}
-    h4,.delta {}
-    h5,.epsilon {}
-    h6,.zeta {}
+    h1, .alpha   { ...}
+    h2, .beta    { ...}
+    h3, .gamma   { ...}
+    h4, .delta   { ...}
+    h5, .epsilon { ...}
+    h6, .zeta    { ...}
 
 This allows us to reuse the styles without _always_ being locked into specific 
 elements.
@@ -587,19 +587,19 @@ elements.
 
 **Shorthand CSS needs to be used with caution.**
 
-It might be tempting to use declarations like `background:red;` but in doing so
+It might be tempting to use declarations like `background: red;` but in doing so
 what you are actually saying is ‘I want no image to scroll, aligned top-left,
-repeating X and Y, and a background colour of red’. Nine times out of ten this
-won’t cause any issues but that one time it does is annoying enough to warrant
+repeating X and Y, and a background color of red’. Nine times out of ten this
+won't cause any issues but that one time it does is annoying enough to warrant
 not using such shorthand. Instead use `background-color:red;`.
 
-Similarly, declarations like `margin:0;` are nice and short, but
+Similarly, declarations like `margin: 0;` are nice and short, but
 **be explicit**. If you actually only really want to affect the margin on
-the bottom of an element then it is more appropriate to use `margin-bottom:0;`.
+the bottom of an element then it is more appropriate to use `margin-bottom: 0;`.
 
 Be explicit in which properties you set and take care to not inadvertently unset
 others with shorthand. E.g. if you only want to remove the bottom margin on an
-element then there is no sense in setting all margins to zero with `margin:0;`.
+element then there is no sense in setting all margins to zero with `margin: 0;`.
 
 Shorthand can be good, but is most often abused.
 
@@ -618,6 +618,9 @@ can) and they have a nice, low specificity. Specificity is one of the quickest
 ways to run into difficulties in projects and keeping it low at all times is
 _imperative_. An ID is **255** times more specific than a class, so never ever use
 them in CSS _ever_.
+
+If CSS specificity is still a bit confusing, check out this visualizer:
+[Specificity Calculator](http://specificity.keegan.st/)
 
 
 ## Selectors
@@ -663,17 +666,17 @@ needs to look different when applied to different elements e.g.:
 
 But generally avoid it where possible.
 
-Another example of an over-qualified selector might be `ul.nav li a{}`. As
+Another example of an over-qualified selector might be `ul.nav li a {...}`. As
 above, we can instantly drop the `ul` and because we know `.nav` is a list, we
-therefore know that any `a` _must_ be in an `li`, so we can get `ul.nav li a{}`
-down to just `.nav a{}`.
+therefore know that any `a` _must_ be in an `li`, so we can get `ul.nav li a
+{...}` down to just `.nav a {...}`.
 
 
 ### Selector performance
 
 Whilst it is true that browsers will only ever keep getting faster at rendering
 CSS, efficiency is something you could do to keep an eye on. Short, unnested
-selectors, not using the universal (`*{}`) selector as the key selector, and
+selectors, not using the universal (`* {}`) selector as the key selector, and
 avoiding more complex CSS3 selectors should help circumvent these problems.
 
 
@@ -681,7 +684,7 @@ avoiding more complex CSS3 selectors should help circumvent these problems.
 
 Instead of using selectors to drill down the DOM to an element, it is often best
 to put a class on the element you explicitly want to style. Let's take a
-specific example with a selector like `.header ul{...}`…
+specific example with a selector like `.header ul {...}`…
 
 Let's imagine that `ul` is indeed the main navigation for our website. It lives
 in the header as you might expect and is currently the only `ul` in there;
@@ -766,17 +769,17 @@ A magic number is a number which is used because ‘it just works’. These are 
 because they rarely work for any real reason and are not usually very
 futureproof or flexible/forgiving. They tend to fix symptoms and not problems.
 
-For example, using `.dropdown-nav li:hover ul { top:37px; }` to move a dropdown
+For example, using `.dropdown-nav li:hover ul { top: 37px; }` to move a dropdown
 to the bottom of the nav on hover is bad, as `37px` is a magic number. `37px` only
 works here because in this particular scenario the `.dropdown-nav` happens to be
 `37px` tall.
 
-Instead you should use `.dropdown-nav li:hover ul { top:100%; }` which means no
+Instead you should use `.dropdown-nav li:hover ul { top: 100%; }` which means no
 matter how tall the `.dropdown-nav` gets, the dropdown will always sit 100% from
 the top.
 
 _Every_ time you hard code a number think twice (maybe even a third time); if
-you can avoid it by using keywords or ‘aliases’ (i.e. `top:100%` to mean ‘all
+you can avoid it by using keywords or ‘aliases’ (i.e. `top: w100%` to mean ‘all
 the way from the top’) or&mdash;even better&mdash;no measurements at all then
 you probably should.
 
@@ -810,7 +813,7 @@ the right answer!_
 Delete chunks of markup and CSS until your problem goes away, then you can
 determine which part of the code the problem lies in.
 
-It can be tempting to put an `overflow:hidden;` on something to hide the effects
+It can be tempting to put an `overflow: hidden;` on something to hide the effects
 of a layout quirk, but overflow was probably never the problem; **fix the
 problem, not its symptoms.**
 
