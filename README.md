@@ -59,9 +59,11 @@ means consistent commenting, consistent syntax and consistent naming.
 CSS should be written in
 [Expanded Form](http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#id15):
 
-    .widget {
-      rule: value;
-    }
+```scss
+.widget {
+  rule: value;
+}
+```
 
 SCSS is our prefered CSS syntax.
 
@@ -72,42 +74,45 @@ Our files should be organized by modules.  Much of this was inspired by
 [Clean out your Sass junk-drawer](http://gist.io/4436524) from Dale Sande.
 
 
-
-    layouts/
-      _main.scss
-      ...
-    home/
-      _extends.scss
-      _home.scss
-      _welcome.scss
-    extends/
-      _buttons.scss
-      _forms.scss
-      _links.scss
-      ...
-    global/
-      _extends.scss
-      _navbar.scss
-      _navpanel.scss
-    _dev.scss
-    _global_config.scss
-    _global_functions.scss
-    _global_reset.scss
-    _shame.scss
-    main.scss
+```
+layouts/
+  _main.scss
+  ...
+home/
+  _extends.scss
+  _home.scss
+  _welcome.scss
+extends/
+  _buttons.scss
+  _forms.scss
+  _links.scss
+  ...
+global/
+  _extends.scss
+  _navbar.scss
+  _navpanel.scss
+_dev.scss
+_global_config.scss
+_global_functions.scss
+_global_reset.scss
+_shame.scss
+main.scss
+```
 
 
 ### Files that should be found in every project
 
 Some global SCSS files should appear in every project.
 
-    _dev.scss              // contains any styling useful during development
-    _global_reset.scss     // level the browser playing field and start with a blank canvas
-    _global_functions.scss // level the browser playing field and start with a blank canvas
-    _global_config.scss    // set all site-wide variables and third-party overrides
-    _global_functions.scss // create reusable functions here to separate function
-                              from style
-    _shame.scss
+```
+_dev.scss              // contains any styling useful during development
+_global_reset.scss     // level the browser playing field and start with a blank canvas
+_global_functions.scss // level the browser playing field and start with a blank canvas
+_global_config.scss    // set all site-wide variables and third-party overrides
+_global_functions.scss // create reusable functions here to separate function
+                          from style
+_shame.scss
+```
 
 
 ### Table of contents
@@ -115,17 +120,19 @@ Some global SCSS files should appear in every project.
 This file should reference each included SCSS file with direct links to open the
 file in vim and a brief description:
 
-    // SIGN-UP
-    // app/sign-up.scss
-    // Define the styles for the embeddable sign up widget.
-    app/sign-up.scss
+```
+// SIGN-UP
+// app/sign-up.scss
+// Define the styles for the embeddable sign up widget.
+app/sign-up.scss
 
-    // MODAL
-    // app/modal.scss
-    // Define all global styles for modal windows
-    app/modal.scss
+// MODAL
+// app/modal.scss
+// Define all global styles for modal windows
+app/modal.scss
 
-    // etc...
+// etc...
+```
 
 All links must be relative to the current directory. This allows Vim users to
 simply place their cursor over the path and type 'gf' to open it.
@@ -141,16 +148,18 @@ We will also include several other pieces of helpful information: a) primary
 contributors (name/email), and editor settings.
 
 
-    // ex: set tabstop=8 expandtab:
-    //
-    //
-    // $RESET
-    //
-    //
-    // @author Your Name <you@youremail.com>
-    // @doc
-    //  Any documentation needed goes here...
-    // @end
+```
+// ex: set tabstop=8 expandtab:
+//
+//
+// $RESET
+//
+//
+// @author Your Name <you@youremail.com>
+// @doc
+//  Any documentation needed goes here...
+// @end
+```
 
 
 
@@ -177,9 +186,11 @@ styles, less specificity problems and all-round better architected stylesheets.
 
 ## Anatomy of rulesets
 
-    [selector]{
-      [property]: [value];
-    }
+```scss
+[selector] {
+  [property]: [value];
+}
+```
 
 
 * Use hyphen delimited class names (except for BEM notation,
@@ -194,55 +205,53 @@ styles, less specificity problems and all-round better architected stylesheets.
 
 A brief example:
 
-    .widget{
-      background-color: #c0ffee;
-      border: 1px solid #bada55;
-      -webkit-border-radius : 4px;
-      -moz-border-radius    : 4px;
-      -ms-border-radius     : 4px;
-      -o-border-radius      : 4px;
-      border-radius         : 4px;
-      padding: 10px;
-    }
+```scss
+.widget {
+  background-color: #c0ffee;
+  border: 1px solid #bada55;
+  border-radius: 4px;
+  padding: 10px;
+}
 
-    .widget__heading{
-      color: #bada55;
-      font-size: 16px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      line-height: 1em;
-    }
+  .widget__heading {
+    color: #bada55;
+    font-size: 16px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1em;
+  }
+```
 
-Here we can see that `.widget-heading` must be a child of `.widget` as we have
-indented the `.widget__heading` ruleset one level deeper than `.widget`. This is
-useful information to developers that can now be gleaned just by a glance at the
-indentation of our rulesets.
+Here we can see that `.widget__heading` must be a child of `.widget` as we have indented the
+`.widget__heading` rule set one level deeper than `.widget`. This is useful information to
+developers that can now be gleaned just by a glance at the indentation of our rule sets.
 
 One exception to our multi-line rule might be in cases of the following:
 
-    .t10 { width:10% }
-    .t20 { width:20% }
-    .t25 { width:25% }
-    .t30 { width:30% }
-    .t33 { width:33.333% }
-    .t40 { width:40% }
-    .t50 { width:50% }
-    .t60 { width:60% }
-    .t66 { width:66.666% }
-    .t70 { width:70% }
-    .t75 { width:75% }
-    .t80 { width:80% }
-    .t90 { width:90% }
+```scss
+.t10 { width:10% }
+.t20 { width:20% }
+.t25 { width:25% }
+.t30 { width:30% }
+.t33 { width:33.333% }
+.t40 { width:40% }
+.t50 { width:50% }
+.t60 { width:60% }
+.t66 { width:66.666% }
+.t70 { width:70% }
+.t75 { width:75% }
+.t80 { width:80% }
+.t90 { width:90% }
+```
 
-In this example from [inuit.css's table grid system](https://github.com/csswizardry/inuit.css/blob/master/base/_tables.scss#L96-L120)
-it makes more sense to single-line our CSS.
+In this example from [inuit.css's table grid system][inuit] it makes more sense to single-line our
+CSS.
 
 
 ## Naming conventions
 
-Always use hyphen delimited classes (e.g. `.foo-bar`, not
-`.foo_bar` or `.fooBar`), however in certain circumstances we can use BEM (Block,
-Element, Modifier) notation.
+Always use hyphen delimited classes (e.g. `.foo-bar`, not `.foo_bar` or `.fooBar`), however in
+certain circumstances we can use BEM (Block, Element, Modifier) notation.
 
 [<abbr title="Block, Element, Modifier">BEM</abbr>](https://bem.info/method/)
 is a methodology for naming and classifying CSS selectors in a way to make them
@@ -250,24 +259,27 @@ much more strict, transparent and informative.
 
 The naming convention follows this pattern:
 
-    .block {...}
-    .block__element {...}
-    .block--modifier {...}
+```scss
+.block {...}
+.block__element {...}
+.block--modifier {...}
+```
 
 * `.block` represents the higher level of an abstraction or component.
-* `.block__element` represents a descendent of `.block` that helps form `.block`
-  as a whole.
+* `.block__element` represents a descendent of `.block` that helps form `.block` as a whole.
 * `.block--modifier` represents a different state or version of `.block`.
 
 An analogy of how BEM classes work might be:
 
-    .person {...}
+```scss
+.person {...}
 
-    .person--woman {...}
+.person--woman {...}
 
-    .person__hand {...}
-    .person__hand--left {...}
-    .person__hand--right {...}
+.person__hand {...}
+.person__hand--left {...}
+.person__hand--right {...}
+```
 
 Here we can see that the basic object we’re describing is a person, and that a
 different type of person might be a woman. We can also see that people have
@@ -301,13 +313,13 @@ Let me say that one more time....
 
 ### Classes in HTML
 
-In a bid to make things easier to read, separate classes is your HTML with two
-(2) spaces, thus:
+In a bid to make things easier to read, separate classes is your HTML with two (2) spaces, thus:
 
-    <div class="foo--bar  bar__baz">
+```html
+<div class="foo--bar  bar__baz">
+```
 
-This increased whitespace should allow for easier spotting and reading
-of multiple classes.
+This increased whitespace should allow for easier spotting and reading of multiple classes.
 
 
 ### Classes for CSS and JS shared rules
@@ -316,20 +328,23 @@ Use the `is_` prefix for CSS state rules that are triggered by JavaScript.
 
 HTML:
 
-    <button class="button--submit  is_enabled">Submit</button>
+```html
+<button class="button--submit  is_enabled">Submit</button>
+```
 
 CSS:
 
-    .button--submit {
-      opacity: .7;
-      pointer-events: none;
+```scss
+.button--submit {
+  opacity: .7;
+  pointer-events: none;
 
-      &.is_enabled {
-        opacity: 1;
-        pointer-events: all;
-      }
-    }
-
+  &.is_enabled {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+```
 
 ### JS hooks
 
@@ -341,9 +356,11 @@ class namespaced with `.js-`, e.g. `.js-toggle`, `.js-drag-and-drop`. This means
 that we can attach both JS and CSS to classes in our markup but there will never
 be any troublesome overlap.
 
-    <button class="is_active  js-active-button">
-      Submit
-    </button>
+```html
+<button class="is_active  js-active-button">
+  Submit
+</button>
+```
 
 The above markup holds two classes; one to which you can attach some styling for
 sortable table columns and another which allows you to add the sorting
@@ -363,23 +380,25 @@ syntax like `color:red;` with classes like `.colour-picker{}` lacks consistency.
 When more than one or two lines are needed, use a docBlock-esque commenting
 style limited to 80 characters in length:
 
-    //
-    //
-    //  This is a docBlock style comment
-    //
-    //  This is a longer description of the comment, describing the code in more
-    //  detail. We limit these lines to a maximum of 80 characters in length.
-    //
-    //  We can have markup in the comments, and are encouraged to do so:
-    //
-    //  <div class=foo>
-    //      <p>Lorem</p>
-    //  </div>
-    //
-    //  We do not prefix lines of code with an asterisk as to do so would inhibit
-    //  copy and paste.
-    //
-    //
+```scss
+//
+//
+//  This is a docBlock style comment
+//
+//  This is a longer description of the comment, describing the code in more
+//  detail. We limit these lines to a maximum of 80 characters in length.
+//
+//  We can have markup in the comments, and are encouraged to do so:
+//
+//  <div class=foo>
+//      <p>Lorem</p>
+//  </div>
+//
+//  We do not prefix lines of code with an asterisk as to do so would inhibit
+//  copy and paste.
+//
+//
+```
 
 Document and comment your code as much as you possibly can, what may
 seem or feel transparent and self explanatory to you may not be to another dev.
@@ -412,20 +431,26 @@ tell.
 By quasi-qualifying this selector, adding the element that the class should be
 applied to, we can make it easier to find within the DOM.
 
-    // <html>
-    .product-page {...}
+```scss
+// <html>
+.product-page {...}
+```
 
 We can now see exactly where to apply this class but with none of the
 specificity or non-reusability drawbacks.
 
 Other examples might be:
 
-    // <ol>
-    .breadcrumb {...}
-    // <p>
-    .intro {...}
-    // <ul>
-    .image-thumbs {...}
+```scss
+// <ol>
+.breadcrumb {...}
+
+// <p>
+.intro {...}
+
+// <ul>
+.image-thumbs {...}
+```
 
 Here we can see where we intend each of these classes to be applied without
 impacting the specificity of the selectors.
@@ -441,18 +466,22 @@ The object should be defined as a [placeholder selector](http://sass-lang.com/do
 This allows the style to be defined, but it will not be rendered on it's own;
 but rather as part of the style declaration that includes it.
 
-    %error {
-      background-color: red;
-      border: 1px solid DarkRed;
-      color: white;
-    }
+```scss
+%error {
+  background-color: red;
+  border: 1px solid DarkRed;
+  color: white;
+}
+```
 
 Then to use:
 
-    .error--serious {
-      @extend %error;
-      border-width: 3px;
-    }
+```scss
+.error--serious {
+  @extend %error;
+  border-width: 3px;
+}
+```
 
 Here we have established a concrete relationship between two very separate
 pieces of code.
@@ -482,11 +511,13 @@ apply only the relevant classes and CSS _afterwards_.
 Work in an OOCSS manner; split components into structure (objects) and
 skin (extensions). As an **analogy** (note, not example) take the following:
 
-    .room {...}
+```scss
+.room {...}
 
-    .room--kitchen {...}
-    .room--bedroom {...}
-    .room--bathroom {...}
+.room--kitchen {...}
+.room--bedroom {...}
+.room--bathroom {...}
+```
 
 We have several types of room in a house, but they all share similar traits;
 they all have floors, ceilings, walls and doors. We can share this information
@@ -518,20 +549,22 @@ classes, we create our grid using custom mixins applied to various containers.
 
 In `grid.scss` define columns and gutters as so:
 
-    //
-    // Base font size = 16px // Defined in base.scss
-    // Site = 1000px, Column = 150px, Gutter = 20px   (6 column grid)
-    //
+```scss
+//
+// Base font size = 16px // Defined in base.scss
+// Site = 1000px, Column = 150px, Gutter = 20px   (6 column grid)
+//
 
-    $column: 15%;
-    $gutter: 2%;
+$column: 15%;
+$gutter: 2%;
 
-    $onecol   : $column;
-    $twocol   : ($column * 2) + $gutter;
-    $threecol : ($column * 3) + ($gutter * 2);
-    $fourcol  : ($column * 4) + ($gutter * 3);
-    $fivecol  : ($column * 5) + ($gutter * 4);
-    $sixcol   : ($column * 6) + ($gutter * 5);
+$onecol   : $column;
+$twocol   : ($column * 2) + $gutter;
+$threecol : ($column * 3) + ($gutter * 2);
+$fourcol  : ($column * 4) + ($gutter * 3);
+$fivecol  : ($column * 5) + ($gutter * 4);
+$sixcol   : ($column * 6) + ($gutter * 5);
+```
 
 Leave any notes above the grid in a comment block. For instance, a new developer
 may not know how the 1000px wide design file translates to a 15% column. When
@@ -552,10 +585,12 @@ benefits of ems with the confidence of pixels. Here is a handy Sass mixin to
 work out a rem and pixel fallback for you (assuming you set your base font
 size in a variable somewhere):
 
-    @mixin font-size($font-size){
-      font-size: $font-size +px;
-      font-size: $font-size / $base-font-size +rem;
-    }
+```scss
+@mixin font-size($font-size){
+  font-size: $font-size +px;
+  font-size: $font-size / $base-font-size +rem;
+}
+```
 
 Only use pixels for items whose dimensions were defined _before_ the came into
 the site. This includes things like images and sprites whose dimensions are
@@ -572,12 +607,14 @@ your styles to something _other_ than the element.
 Rather than simply using .hN notation we use abstract classes made up of the first 
 six letters of the Greek alphabet:
 
-    h1, .alpha   { ...}
-    h2, .beta    { ...}
-    h3, .gamma   { ...}
-    h4, .delta   { ...}
-    h5, .epsilon { ...}
-    h6, .zeta    { ...}
+```scss
+h1, .alpha   { ...}
+h2, .beta    { ...}
+h3, .gamma   { ...}
+h4, .delta   { ...}
+h5, .epsilon { ...}
+h6, .zeta    { ...}
+```
 
 This allows us to reuse the styles without _always_ being locked into specific 
 elements.
@@ -657,12 +694,15 @@ same effect from just using `.promo`. Of course sometimes you will _want_ to
 qualify a class with an element (e.g. if you have a generic `.error` class that
 needs to look different when applied to different elements e.g.:
 
-    .error {
-      color: red;
-    }
-    div.error {
-      padding: 14px;
-    }
+```scss
+.error {
+  color: red;
+}
+
+div.error {
+  padding: 14px;
+}
+```
 
 But generally avoid it where possible.
 
@@ -723,9 +763,11 @@ Anytime a 'hack' such as this is employed, it should be included in your
 Always leave one space between the style value and the `!important` declaration
 to improve readability.
 
-    .foo {
-      background-color: #bada55 !important;
-    }
+```scss
+.foo {
+  background-color: #bada55 !important;
+}
+```
 
 
 ## Shame SCSS
@@ -851,3 +893,11 @@ much of this document.
 - Chris Coyier - [http://twitter.com/real_css_tricks](http://twitter.com/csswizardry)
 - Kyle Kneath - [http://twitter.com/kneath](http://twitter.com/kneath)
 - Dale Sande - [http://twitter.com/anotheruiguy](http://twitter.com/anotheruiguy)
+
+
+
+
+
+
+
+[inuit]: https://github.com/csswizardry/inuit.css/blob/master/base/_tables.scss#L96-L120
