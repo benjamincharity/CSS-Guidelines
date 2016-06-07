@@ -76,7 +76,7 @@ junk-drawer][junk_drawer] from Dale Sande.
 TODO:
 1. Remove layouts folder
 2. Create another example that matches my current setup with styles in each module
-3. Update global dir vs global_files.scss
+3. Update globals dir vs global_files.scss
 -->
 
 ```
@@ -114,13 +114,18 @@ _dev.scss              // contains any styling useful during development
 _global_reset.scss     // level the browser playing field and start with a blank canvas
 _global_functions.scss // level the browser playing field and start with a blank canvas
 _global_config.scss    // set all site-wide variables and third-party overrides
-_global_functions.scss // create reusable functions here to separate function
-                          from style
-_shame.scss
+_global_functions.scss // create reusable functions here to separate function from style
+_shame.scss            // contains all your shameful hacks. This file should be continually refactored
 ```
 
 
 ### Table of contents
+
+<!---
+TODO: Once my newer file structure is called out we should add a note about this TOC only really
+being useful for projects where all the styles are grouped together. If the project is pulling in
+style files from their individual module directories this will just be added work.
+-->
 
 This file should reference each included SCSS file with direct links to open the file in vim and a
 brief description:
@@ -139,21 +144,28 @@ app/modal.scss
 // etc...
 ```
 
-All links must be relative to the current directory. This allows Vim users to simply place their
-cursor over the path and type 'gf' to open it.
+All links should be relative to the current directory. (This allows Vim users to simply place their
+cursor over the path and type `gf` to open it.)
 
 
 ### File titles and headers
 
+<!---
+TODO: Update comment to allow for projects without a TOC
+-->
+
 Without being able to search for files, the table of contents wouldn't be nearly as useful. At the
 top of each SCSS file reference the name as you defined it in the table of contents.
+
+<!---
+TODO: Should this be removed? Does it matter? Only for opensource? Even then I'm not sure it offers
+enough value (at least the author part)
+-->
 
 We will also include several other pieces of helpful information: a) primary contributors
 (name/email), and editor settings.
 
-
 ```scss
-// ex: set tabstop=8 expandtab:
 //
 //
 // $RESET
@@ -165,11 +177,13 @@ We will also include several other pieces of helpful information: a) primary con
 // @end
 ```
 
-
-
 The `$` prefixing the name of the section allows us to run a find for `$[SECTION-NAME]` and **limit
 our search scope to section titles only**.
 
+<!---
+TODO: Add note that SCSS variables use the `$` prefix, but you shouldn't have any variables so
+general that multiple items are matched.
+-->
 
 ## Source order
 
@@ -177,6 +191,11 @@ All stylesheets should be in order of specificity. This ensures that you take fu
 inheritance and CSS' first <i>C</i>; the cascade.
 
 A well ordered set of stylesheets will look something like this:
+
+<!---
+TODO: Add note about the elements only being in the reset or the very, very base of your styles
+(even then I don't like it)
+-->
 
 1. **Elements** – unclassed `h1`, unclassed `ul` etc.
 2. **Objects and abstractions** — generic, underlying design patterns.
@@ -186,6 +205,10 @@ A well ordered set of stylesheets will look something like this:
 This means that—as you go down the document—each section builds upon and inherits sensibly from the
 previous one(s). There should be less undoing of styles, less specificity problems and all-round
 better architected stylesheets.
+
+<!---
+TODO: Add note that anytime you need to 'unset' a property, this is a code smell.
+-->
 
 
 ## Anatomy of rulesets
@@ -197,18 +220,26 @@ better architected stylesheets.
 ```
 
 
-* Use hyphen delimited class names (except for BEM notation, [see below](#naming-conventions))
-* Soft tabs with a 2 space indent
-* 1 space after the colon `:` following the property
-* Multi-line
-* Declarations in alphabetical order
-* Align vendor-prefixed rules so their values are aligned.
-* Always include the final semi-colon in a ruleset
-* `0` values should not include the unit (px/em/etc)
+- [x] Use hyphen delimited class names (except for BEM notation, see: [Naming Conventions](#naming-conventions))
+- [x] Soft tabs with a 2 space indent
+- [x] 1 space after the colon `:` following the property
+- [x] Multi-line
+- [x] Declarations in alphabetical order
+- [x] Align vendor-prefixed rules so their values are aligned.
+- [x] Always include the final semi-colon in a ruleset
+- [x] `0` values should not include the unit (px/em/etc)
 
-A brief example:
+<!---
+TODO: Add note that the amount of spaces can be increased if you want all project files to match.
+Personally I like 2 for SCSS and 4 for all other files
+
+TODO: Explain left/top/bot etc breaking the alphabetical rule. Cons: can't auto sort everything,
+pros: grouping.
+-->
 
 ```scss
+// Example:
+
 .widget {
   background-color: #c0ffee;
   border: 1px solid #bada55;
@@ -218,16 +249,18 @@ A brief example:
 
   .widget__heading {
     color: #bada55;
-    font-size: 16px;
     font-size: 1.5rem;
     font-weight: bold;
-    line-height: 1em;
   }
 ```
 
 Here we can see that `.widget__heading` must be a child of `.widget` as we have indented the
 `.widget__heading` rule set one level deeper than `.widget`. This is useful information to
 developers that can now be gleaned just by a glance at the indentation of our rule sets.
+
+<!---
+TODO: Focus less on indention and more on the BEM naming style
+-->
 
 One exception to our multi-line rule might be in cases of the following:
 
@@ -250,6 +283,11 @@ One exception to our multi-line rule might be in cases of the following:
 In this example from [inuit.css's table grid system][inuit] it makes more sense to single-line our
 CSS.
 
+<!---
+TODO: Add note that the exception should NOT be at the expense of your linter. If you want a rule
+enforced and there is one section that doesn't abide by it, a) change the section to match your
+rule, b) disable the rule with very clear note as to why this action was needed.
+-->
 
 ## Naming conventions
 
@@ -272,6 +310,10 @@ The naming convention follows this pattern:
 * `.block--modifier` represents a different state or version of `.block`.
 
 An analogy of how BEM classes work might be:
+
+<!---
+TODO: The fuck does this sentence ^ even mean?
+-->
 
 ```scss
 .person {...}
@@ -307,6 +349,12 @@ of classes;** gzip will compress well written code _incredibly_ well.
 Let me say that one more time....
 
 **Do NOT worry about the amount or length of classes.**
+
+<!---
+TODO: Add note about classes cruft being a legitimate problem. But good readable code is much more
+important. That worry is most legitimate when dealing with style frameworks that use 'reusable'
+classes for every damn thing.
+-->
 
 ### Classes in HTML
 
