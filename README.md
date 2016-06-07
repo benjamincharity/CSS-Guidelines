@@ -64,7 +64,7 @@ CSS should be written in [Expanded Form][sass_expanded]:
 }
 ```
 
-SCSS is our preferred CSS syntax.
+SCSS is our preferred SASS syntax.
 
 
 ### One file vs. many files
@@ -72,6 +72,12 @@ SCSS is our preferred CSS syntax.
 Our files should be organized by modules.  Much of this was inspired by [Clean out your Sass
 junk-drawer][junk_drawer] from Dale Sande.
 
+<!---
+TODO:
+1. Remove layouts folder
+2. Create another example that matches my current setup with styles in each module
+3. Update global dir vs global_files.scss
+-->
 
 ```
 layouts/
