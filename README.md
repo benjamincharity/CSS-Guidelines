@@ -1,3 +1,5 @@
+> EDIT: No longer maintained, but many rules here are still good to follow.
+
 # CSS Guidelines
 
 ---
